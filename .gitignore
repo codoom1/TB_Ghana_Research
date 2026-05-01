@@ -1,0 +1,31 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Python caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Large local rerun artifacts can be regenerated from the pipeline.
+# Keep current CSV/PNG outputs tracked if desired, but ignore ad hoc archives.
+*.zip
+*.tar
+*.tar.gz

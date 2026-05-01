@@ -1,0 +1,239 @@
+population_group_id,population_group_name,measure_id,measure_name,location_id,location_name,sex_id,sex_name,age_id,age_name,cause_id,cause_name,metric_id,metric_name,year,val,upper,lower,series
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1990,485.2443989566,526.65682555929,436.69535262180005,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1991,464.70558332544,504.13433163501,419.8323488585,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1992,445.29094655439,482.61447798084,402.44496639242,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1993,427.0897097606101,464.2599469018,387.37051180495,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1994,410.77974830076994,445.33100829738,372.65609455888,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1995,396.44283826446,430.5687935702,359.15549955984,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1996,383.2132908802,415.78854768293,347.15672231713,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1997,369.89541175842,403.44752315705,335.31855404042,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1998,357.15537622605,390.65018902967,323.9091305019,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1999,345.58563081585,378.2245605045,311.44921391263,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2000,335.88537348476,369.37085732008,302.57093129871,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2001,327.36395031757,360.9065766527,293.6710116554,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2002,319.8715106834,353.08943473301997,286.46543689189,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2003,312.38702414554,344.69169588386,280.89734563154997,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2004,305.97809212766,338.81756074482,274.66680551728,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2005,300.37950169936,334.06854803724997,268.22859859977,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2006,295.73839198717997,328.23090211016,263.89451329135,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2007,290.57784158357,322.17958178582,258.61877437065,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2008,286.44046263791,317.17019371319003,254.4981607027,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2009,282.22069226887,312.56381815503,250.20929807981,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2010,278.06412708425,308.89059703613,245.66974240477,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2011,272.86638208508003,303.06649097217996,241.30556543633,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2012,266.64308102752,296.57348871512,236.00318671103,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2013,260.60358634693,290.43779202187,230.25367144142,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2014,254.5634568384,284.48412928193,223.58834037368,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2015,249.94624955,281.05578273963,217.48987911668,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2016,247.17720964309,280.55514075878,216.18650664741,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2017,245.17434555267,278.30373609177,215.31109559219,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2018,243.11919183643997,276.04543406907,214.42250120401,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2019,240.14294518971,272.92581087915,212.01142628706,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2020,235.60302806683,267.94099111407,206.37895471787,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2021,222.48940303861,252.27785521835003,196.46053279653,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2022,205.57551846665,233.35184397436,179.71383386835,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2023,194.69865701819,221.5484674175,171.12481633866,incidence_age_standardized_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1990,62664.71239036363,69964.02311557913,55252.55931503146,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1991,61308.13691399109,68386.3819458165,54256.66304512839,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1992,59989.32614848151,66691.14960015708,52958.26462916336,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1993,58765.68001929156,65605.71110151178,51590.35015467974,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1994,57718.73219856148,64274.95999931243,50437.62761799617,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1995,56918.96902914511,63536.57864009278,49795.094285396255,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1996,56231.39368527082,62732.90526669696,49642.20042053975,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1997,55502.52083569911,61599.16287396124,49098.14801157972,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1998,54849.84055248592,60938.44282434211,48269.86547676411,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1999,54382.8631169953,60639.89547165207,47880.10866126159,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2000,54217.8433159518,60635.63617482165,47509.18636852777,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2001,54282.86985532265,60763.85507342976,47720.89042975539,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2002,54495.45807428138,60987.52067113928,48046.03694334201,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2003,54807.380532268544,61580.30100179082,48314.05767190332,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2004,55291.1113667484,62466.47957004419,48765.48769785032,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2005,55932.73428499077,63400.32745489027,49471.76026071829,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2006,56714.75173246431,64271.49306275949,50120.46037309201,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2007,57504.50462751535,65324.078163293925,50673.26129744184,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2008,58410.44310402923,66395.5445328398,51292.67775594523,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2009,59340.17005138319,67772.78352966672,52025.75650788351,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2010,60283.03484113358,69173.78995863334,52354.479677738775,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2011,60982.13039030752,69525.6897085199,53252.24287718012,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2012,61371.53643809293,69648.05415219482,53377.098431490806,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2013,61672.97582683311,70161.44394143592,53193.98091348186,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2014,62007.65354816463,70749.48810785502,53217.03261738465,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2015,62647.887576511865,71731.6194346261,53410.42157635057,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2016,63668.92041530743,72665.53662644842,54546.94161424661,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2017,64852.43774655733,74073.40466019811,55730.74994312863,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2018,66007.0647179898,75323.19590792834,56641.03565264791,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2019,66919.67445611322,76798.57993682043,57893.878310575965,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2020,67366.58782941918,77898.92065063334,58652.74065430687,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2021,65091.17493290282,75390.89208727621,56108.75597158648,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2022,61473.63691060121,71960.44377395135,52289.70616965056,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2023,59181.25959019965,67803.45861616136,51276.34779881973,incidence_all_age_number
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1990,418.0575089176,466.753681647,368.60852667244,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1991,399.43524919904,445.55148613746,353.49343194922,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1992,381.65136767891,424.28828745267,336.91983929933997,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1993,365.02068594038,407.50726716714,320.45140965243,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1994,349.99253275345,389.74792386979,305.84166290017004,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1995,336.85637367851,376.02054010644,294.69604200612,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1996,324.67715177766,362.21654257281,286.63149148904,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1997,312.55885194013996,346.89169678174,276.49304110555,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1998,301.12765488965,334.5543067306,265.0033481674,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1999,290.89469839431996,324.36365231342,256.11137350641997,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2000,282.38968642434,315.81629290869,247.44813552805,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2001,275.11721156115,307.96423284294997,241.85969428737,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2002,268.61680729417003,300.61721960642,236.82658157064,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2003,262.62539195136003,295.07979637079,231.51076022277,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2004,257.47459105716,290.888189521,227.08666352216,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2005,253.09225971466,286.88266982351996,223.85674071734,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2006,249.39773223476,282.62778426339,220.39996251022,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2007,245.80745737821,279.23282989576,216.60677884748,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2008,242.80601988426,275.99924002211,213.21822388756,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2009,240.03388675377,274.14422022488,210.44672664536,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2010,237.48956807072,272.51536924748,206.25442627433,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2011,234.22375333961,267.03835849662,204.53434671131,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2012,230.02717557494,261.04846172591,200.06315476502,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2013,225.7648256569,256.83836310656,194.72596653433,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2014,221.86842510250997,253.14741979562,190.41486880771,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2015,219.27316961094,251.06703774404,186.94121832919,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2016,218.15677095349,248.98300028686,186.90099612702,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2017,217.68487175874,248.63613696687,187.06684861715,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2018,217.19055196427,247.84447793354,186.37244134071,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2019,215.98606255049,247.87064528984,186.85492605435,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2020,213.42127115354,246.78831454020997,185.81529613431,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2021,202.57770690002,234.63263731112997,174.62249119721,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2022,188.02286641075,220.09774574171,159.93295552192,incidence_all_age_rate
+1,All Population,6,Incidence,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2023,177.91270193382,203.83304793426,154.14868905049,incidence_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1990,125.51762504880134,183.1545304915276,88.9066250595133,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1991,120.83513186693366,168.2808636012732,87.10373984488953,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1992,116.75461891873228,158.96125574444682,85.05542969535354,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1993,112.29749968814292,153.7310195228803,82.76111786735358,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1994,109.10169560332088,146.40778738940068,81.36978537617453,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1995,105.93320343912244,137.89992052649262,78.82053268250081,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1996,102.63925726841671,134.4354865626831,75.96463506991219,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1997,99.24292866708446,131.1181364024631,73.58438722289291,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1998,94.707188481734,125.0974315164888,70.93127025675389,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,1999,90.37114748480992,118.33005636953922,68.04005263005206,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2000,86.95035054313065,112.35895198458994,64.44725533081294,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2001,84.59854982058026,109.81402127905938,62.53253052287678,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2002,82.47074190821196,108.58981586227004,61.01266106247641,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2003,79.88328868240141,105.74254968118493,58.05495011438941,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2004,78.49052693956978,104.80369713555858,58.289157588356034,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2005,77.7148330697798,104.40143088047186,57.26218229717576,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2006,77.0098790164385,101.9991125979738,56.04861715193805,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2007,74.20079967710087,100.96836145008338,52.583599865551335,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2008,72.34983999827271,98.368748832944,50.83772900730371,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2009,70.37156569736796,94.91915782987822,50.69429553896179,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2010,68.56142200796707,91.90595021383167,49.13098778806786,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2011,66.8023036772274,91.8666022469374,47.023447307399415,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2012,64.5449379605407,88.31558370054164,44.30400229751136,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2013,63.240075614229426,87.6289855632128,41.841314457640074,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2014,60.92547365800533,85.2602679729537,40.10211180847608,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2015,58.12842264773395,80.76316929783296,37.63413590177435,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2016,57.259323165411566,80.905565966629,35.837225192793326,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2017,56.14956525606641,79.07906917900453,34.237418831222186,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2018,54.23408321500344,76.13751643499728,33.187196234502714,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2019,51.92619039252213,72.26456906420125,31.97386386183884,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2020,48.85328871699582,67.6634669737512,31.160176003372044,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2021,45.738798557777976,62.4195641518717,29.776317046151068,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2022,42.294352784800445,58.37169753851859,27.119992465175255,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,3,Rate,2023,40.60373671715751,56.92813504376387,25.526418718760286,mortality_age_standardized_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1990,9996.536059459995,14164.379252822657,7256.188846609139,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1991,9885.223223548552,13786.682695603591,7265.979149300281,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1992,9814.871014886618,13280.893000861322,7236.768770770385,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1993,9710.101790207347,13040.139442961456,7259.520809585705,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1994,9699.601967709494,13144.212369227447,7248.42045941679,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1995,9684.629263491095,12719.67985596106,7221.740690925213,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1996,9638.084322581444,12474.33966030615,7204.945723286179,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1997,9586.468625587862,12530.810707662236,7213.146766665321,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1998,9417.675010720352,12272.661411229295,7099.58996374516,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,1999,9254.192804721011,11984.859408900886,6950.784961226357,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2000,9151.232584795467,11781.564016991211,6685.508173883517,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2001,9185.720954596702,11872.04202141479,6763.919225378903,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2002,9206.187249150727,12016.64962100864,6711.582671929167,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2003,9235.437929505655,12131.374076415635,6756.357064161971,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2004,9371.15746880232,12515.077019233264,6873.435114376219,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2005,9587.485591607046,12792.846251332969,7172.556505343103,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2006,9793.324890910188,12792.236252085468,7237.760294682531,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2007,9763.589580388494,12999.140595287785,7039.959246162361,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2008,9777.577734734356,13419.182734605953,6951.379755248558,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2009,9792.924111405897,13424.536949535608,7053.2045574927615,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2010,9816.063749351326,13201.906992639806,7045.376825116146,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2011,9888.095376492463,13473.724772519992,7002.196500164663,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2012,9841.685186103432,13675.031790847555,6785.928435490501,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2013,9872.975911714062,13776.586463123413,6438.875041662189,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2014,9783.60333580408,13735.1619551864,6393.010084132131,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2015,9602.36606617581,13599.50533285224,6187.593630953708,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2016,9703.986123107892,13746.544240342764,6131.136004869357,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2017,9747.82768029929,13756.274441866011,5979.580581795639,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2018,9617.106433530716,13693.618364078326,5779.475135044433,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2019,9435.295787839026,13250.422567693113,5727.54493614303,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2020,9134.433363355614,12780.974192262302,5892.950191138013,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2021,8771.126727852408,12135.91563713261,5800.416442925475,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2022,8354.37355234071,11444.286686329016,5452.4775524005,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,1,Number,2023,8232.987710823014,11718.098864386571,5157.495680418329,mortality_all_age_number
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1990,66.69027596886475,94.4953687637109,48.408492080075874,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1991,64.40428302731868,89.82310204389591,47.33936371688182,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1992,62.44209073381069,84.49288070398487,46.040235426290224,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1993,60.313911365424424,80.99830790123556,45.09222499669153,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1994,58.816057284494555,79.70334764681127,43.9526811906731,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1995,57.31532298924693,75.27728108421424,42.73951939547534,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1996,55.64979918447956,72.02619045660049,41.60098306014406,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1997,53.98557727934341,70.566449049411,40.62036891871404,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1998,51.70338440231894,67.37736541789617,38.97701169094435,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,1999,49.50080724916838,64.1071812558016,37.17984635251578,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2000,47.66352812960983,61.36341773977654,34.820982196001665,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2001,46.55520133594698,60.17005189986797,34.2809914337772,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2002,45.378765746833515,59.23198317129945,33.082461785477705,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2003,44.254267993174494,58.13098237474522,32.375036079204705,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2004,43.63874911118566,58.27906616313486,32.00758406705254,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2005,43.382795859717774,57.88686012442877,32.45538694065801,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2006,43.06521573704088,56.252643519116006,31.82736323113275,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2007,41.73521961775853,55.56583294695078,30.09285087411112,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2008,40.6443541209166,55.78212005833083,28.896148725834603,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2009,39.612856436206854,54.30290777860061,28.53055699938941,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2010,38.67112440725102,52.009909548424496,27.755794038932784,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2011,37.97877833455059,51.75067462362983,26.894448183311617,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2012,36.88770361062682,51.25550249046371,25.434395849681227,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2013,36.14177288414718,50.43162907733463,23.570639842142302,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2014,35.00652806119259,49.14552603023546,22.87470977964232,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2015,33.60913391570436,47.599476292533815,21.657127162774746,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2016,33.24997917643021,47.10150075862713,21.007876753277692,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2017,32.71973563746192,46.17456092334314,20.071168908193815,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2018,31.644259042902387,45.05766986593011,19.01686433122027,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2019,30.45281380666418,42.76629587316803,18.48589206227881,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2020,28.93841654279824,40.490870126898514,18.669209190494083,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2021,27.29762892265246,37.76957419245671,18.052140912869937,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2022,25.55263266205773,35.003420896006006,16.67691241260927,mortality_all_age_rate
+1,All Population,1,Deaths,207,Ghana,3,Both,22,All ages,297,Tuberculosis,3,Rate,2023,24.750285795928747,35.22734468524103,15.504637753049812,mortality_all_age_rate
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1990,0.25866887967938723,0.41941030375504945,0.16881320196524133,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1991,0.2600251346287593,0.4008287214142007,0.17277882972658182,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1992,0.2621985015014701,0.3949888034863513,0.17623886886114154,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1993,0.2629365613868039,0.39685782690729804,0.178264608910704,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1994,0.26559657834796035,0.39287640676508007,0.18271753787654058,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1995,0.2672092751199008,0.38395603212395385,0.1830614151781297,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1996,0.2678384589236592,0.38724725151620537,0.1827001621214467,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1997,0.2682999721334753,0.39102559289533934,0.18238899237026354,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1998,0.26517083260085694,0.38621150111652996,0.18157234336156083,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,1999,0.2615014613641891,0.3799337133749647,0.179893269065594,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2000,0.258869118476443,0.37134747710996974,0.1744784518150707,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2001,0.2584235366738234,0.3739355160049558,0.1732651455200601,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2002,0.25782459254347045,0.37906777529762187,0.17279662051799896,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2003,0.25571897200564925,0.37644552832438044,0.16842572886917,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2004,0.2565233556225392,0.38156666561211056,0.17203700262825644,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2005,0.2587221585698016,0.3892255763385306,0.17140848078517945,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2006,0.26039865334689727,0.3865147150117621,0.17075972064667805,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2007,0.2553560150103902,0.3904138889212137,0.16321208058587677,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2008,0.25258247152648367,0.3865204705658228,0.16028532950128074,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2009,0.2493494191783974,0.3793590348493027,0.16218862387270203,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2010,0.24656694384455352,0.3741036617460433,0.1590562751326521,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2011,0.24481690696656933,0.38070652071709876,0.1551588470126047,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2012,0.24206492706210167,0.3742135219923031,0.14938625326712368,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2013,0.2426677103746405,0.38057584495675206,0.1440629133225521,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2014,0.23933314865645297,0.3813269861499013,0.14096431990669683,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2015,0.23256369220337417,0.3713421959028482,0.13390272754728766,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2016,0.231652923212827,0.37423966565398165,0.12773683310834788,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2017,0.22901892581580885,0.36727818862054495,0.12302177222634365,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2018,0.22307610849368803,0.3550817475193849,0.12022367385435133,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2019,0.21623033877385436,0.3408522376824927,0.117152217149578,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2020,0.20735424802408878,0.3278603046819887,0.11629491954109508,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2021,0.20557742496095704,0.3177206294992507,0.11802984855876171,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2022,0.20573633037759673,0.3248035851334571,0.11621931930460819,mortality_to_incidence_age_standardized_ratio
+1,All Population,,Mortality-to-incidence ratio,207,Ghana,3,Both,27,Age-standardized,297,Tuberculosis,,Ratio,2023,0.20854656800927007,0.3326702477278442,0.11521821394799668,mortality_to_incidence_age_standardized_ratio

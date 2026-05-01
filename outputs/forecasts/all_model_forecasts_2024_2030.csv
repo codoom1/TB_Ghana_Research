@@ -1,0 +1,169 @@
+series,model,year,forecast,model_params
+incidence_age_standardized_rate,ARIMA,2024,183.6481853800749,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2025,172.3616127056888,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2026,160.77823857360298,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2027,148.83866381421083,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2028,136.48433579280515,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2029,123.6571233656449,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA,2030,110.298917172498,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55"
+incidence_age_standardized_rate,ARIMA_LSTM,2024,183.20302340791983,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2025,171.7382025089931,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2026,160.16084084902212,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2027,148.2104576512469,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2028,135.85293646567877,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2029,123.03835265249552,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,ARIMA_LSTM,2030,109.68077762815169,"selected_d=0; adf_p=0.0155; kpss_p=0.0100; rule=adf_only; order=(2, 0, 0); aic=145.55; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2024,189.64875625989768,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2025,189.51912841381565,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2026,188.9288169090084,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2027,187.6843843934768,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2028,183.0137833176048,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2029,173.3943904685952,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Causal_TCN,2030,161.02295831618804,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+incidence_age_standardized_rate,Drift,2024,185.89424059581395,linear_drift
+incidence_age_standardized_rate,Drift,2025,177.08982417343788,linear_drift
+incidence_age_standardized_rate,Drift,2026,168.28540775106183,linear_drift
+incidence_age_standardized_rate,Drift,2027,159.48099132868577,linear_drift
+incidence_age_standardized_rate,Drift,2028,150.67657490630972,linear_drift
+incidence_age_standardized_rate,Drift,2029,141.87215848393365,linear_drift
+incidence_age_standardized_rate,Drift,2030,133.0677420615576,linear_drift
+incidence_age_standardized_rate,ETS,2024,184.56932506450315,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2025,175.1361477815734,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2026,166.35128075419763,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2027,158.17016781907571,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2028,150.55131500677396,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2029,143.45608008753453,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,ETS,2030,136.84847658088722,trend=add; damped=True; aic=58.87
+incidence_age_standardized_rate,LSTM,2024,183.93082517919476,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2025,173.65823554911245,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2026,163.78911564305815,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2027,154.56463100444998,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2028,146.17655427502265,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2029,138.59451482019745,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,LSTM,2030,131.90454423986597,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2024,187.8990235152298,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2025,181.71497629309235,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2026,176.14247701788483,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2027,170.79845283651886,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2028,165.57465217733917,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2029,160.1043925108963,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Multistep_LSTM,2030,155.09192798758087,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+incidence_age_standardized_rate,Naive,2024,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2025,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2026,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2027,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2028,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2029,194.69865701819,last_observation
+incidence_age_standardized_rate,Naive,2030,194.69865701819,last_observation
+mortality_age_standardized_rate,ARIMA,2024,38.78536928409941,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2025,36.52210663250267,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2026,34.25884398090593,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2027,31.99558132930919,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2028,29.73231867771245,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2029,27.46905602611571,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA,2030,25.20579337451897,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03"
+mortality_age_standardized_rate,ARIMA_LSTM,2024,38.639078315386605,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2025,36.422657459613795,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2026,34.17051722559134,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2027,31.909417353416472,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2028,29.646290733079365,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2029,27.383662371333013,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,ARIMA_LSTM,2030,25.1203260198031,"selected_d=2; adf_p=0.0000; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 2); aic=76.03; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2024,38.89478209872655,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2025,36.90932098906476,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2026,34.25190349856433,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2027,32.2478548069074,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2028,30.236236430188363,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2029,28.179977813827897,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Causal_TCN,2030,26.125077842087748,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_age_standardized_rate,Drift,2024,38.03058858589558,linear_drift
+mortality_age_standardized_rate,Drift,2025,35.45744045463364,linear_drift
+mortality_age_standardized_rate,Drift,2026,32.88429232337171,linear_drift
+mortality_age_standardized_rate,Drift,2027,30.311144192109772,linear_drift
+mortality_age_standardized_rate,Drift,2028,27.73799606084784,linear_drift
+mortality_age_standardized_rate,Drift,2029,25.164847929585907,linear_drift
+mortality_age_standardized_rate,Drift,2030,22.591699798323972,linear_drift
+mortality_age_standardized_rate,ETS,2024,38.546295885961165,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2025,36.597973697467985,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2026,34.75298290638121,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2027,33.00584321906511,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2028,31.351364995248645,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2029,29.784633832906458,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,ETS,2030,28.30099597069765,trend=add; damped=True; aic=-6.46
+mortality_age_standardized_rate,LSTM,2024,40.35908779367938,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2025,40.011701355041914,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2026,38.710208025887546,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2027,36.802710577101834,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2028,34.48375700777702,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2029,31.97549758959969,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,LSTM,2030,29.469716854230168,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2024,38.75713940327659,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2025,36.9434105939199,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2026,35.161111194543984,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2027,33.35751815503135,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2028,31.364751178674844,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2029,29.375482041292337,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Multistep_LSTM,2030,27.6839952058126,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_age_standardized_rate,Naive,2024,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2025,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2026,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2027,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2028,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2029,40.60373671715751,last_observation
+mortality_age_standardized_rate,Naive,2030,40.60373671715751,last_observation
+mortality_to_incidence_age_standardized_ratio,ARIMA,2024,0.2113568056409433,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2025,0.2141670432726166,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2026,0.2169772809042899,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2027,0.21978751853596318,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2028,0.22259775616763647,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2029,0.22540799379930976,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA,2030,0.22821823143098305,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2024,0.21077922745717437,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2025,0.21378866828314236,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2026,0.21664128716164105,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2027,0.2194623834471923,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2028,0.22227441711606905,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2029,0.22508545369103494,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,ARIMA_LSTM,2030,0.22789540638211925,"selected_d=2; adf_p=0.0470; kpss_p=0.1000; rule=adf_and_kpss; order=(0, 2, 0); aic=-274.15; residual_seq_len=5; hidden_size=12; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2024,0.20694365654614177,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2025,0.19945646293020833,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2026,0.19926885114098086,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2027,0.19724061600377712,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2028,0.1922672336737579,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2029,0.18944643782991477,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Causal_TCN,2030,0.1834810778987536,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps"
+mortality_to_incidence_age_standardized_ratio,Drift,2024,0.2070277100798725,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2025,0.205508852150475,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2026,0.20398999422107753,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2027,0.20247113629168004,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2028,0.20095227836228255,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2029,0.19943342043288503,linear_drift
+mortality_to_incidence_age_standardized_ratio,Drift,2030,0.19791456250348755,linear_drift
+mortality_to_incidence_age_standardized_ratio,ETS,2024,0.2104225117825833,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2025,0.2119232668365055,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2026,0.21312387087964324,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2027,0.21408435411415344,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2028,0.21485274070176158,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2029,0.2154674499718481,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,ETS,2030,0.21595921738791735,trend=add; damped=True; aic=-397.82
+mortality_to_incidence_age_standardized_ratio,LSTM,2024,0.20812846932008705,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2025,0.20554247698998998,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2026,0.2028527523839533,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2027,0.20016773733553392,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2028,0.19764726952472575,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2029,0.19519161428471613,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,LSTM,2030,0.1926489378062203,transform=first_difference; seq_len=5; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2024,0.2056324561808385,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2025,0.20341067232490853,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2026,0.20215797163379715,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2027,0.19990533119832501,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2028,0.199433091252077,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2029,0.196341882149655,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Multistep_LSTM,2030,0.19002986249231138,transform=first_difference; seq_len=5; horizon=7; hidden_size=16; epochs=50; lr=0.01; device=mps
+mortality_to_incidence_age_standardized_ratio,Naive,2024,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2025,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2026,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2027,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2028,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2029,0.20854656800927,last_observation
+mortality_to_incidence_age_standardized_ratio,Naive,2030,0.20854656800927,last_observation

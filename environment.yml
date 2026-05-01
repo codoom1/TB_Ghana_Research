@@ -1,0 +1,16 @@
+name: tb_forecast
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - statsmodels
+  - tqdm
+  - pip
+  - pip:
+      - torch
+      - torchvision

@@ -1,0 +1,43 @@
+series,year,forecast,selected_model,model_params
+incidence_age_standardized_rate,2024,185.89424059581395,Drift,linear_drift
+incidence_age_standardized_rate,2025,177.08982417343788,Drift,linear_drift
+incidence_age_standardized_rate,2026,168.28540775106183,Drift,linear_drift
+incidence_age_standardized_rate,2027,159.48099132868577,Drift,linear_drift
+incidence_age_standardized_rate,2028,150.67657490630972,Drift,linear_drift
+incidence_age_standardized_rate,2029,141.87215848393365,Drift,linear_drift
+incidence_age_standardized_rate,2030,133.0677420615576,Drift,linear_drift
+incidence_all_age_rate,2024,170.63558657067514,Drift,linear_drift
+incidence_all_age_rate,2025,163.3584712075303,Drift,linear_drift
+incidence_all_age_rate,2026,156.08135584438543,Drift,linear_drift
+incidence_all_age_rate,2027,148.80424048124058,Drift,linear_drift
+incidence_all_age_rate,2028,141.52712511809574,Drift,linear_drift
+incidence_all_age_rate,2029,134.2500097549509,Drift,linear_drift
+incidence_all_age_rate,2030,126.97289439180605,Drift,linear_drift
+incidence_all_age_number,2024,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2025,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2026,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2027,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2028,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2029,59181.25959019965,Naive,last_observation
+incidence_all_age_number,2030,59181.25959019965,Naive,last_observation
+mortality_age_standardized_rate,2024,38.03058858589558,Drift,linear_drift
+mortality_age_standardized_rate,2025,35.45744045463364,Drift,linear_drift
+mortality_age_standardized_rate,2026,32.88429232337171,Drift,linear_drift
+mortality_age_standardized_rate,2027,30.311144192109772,Drift,linear_drift
+mortality_age_standardized_rate,2028,27.73799606084784,Drift,linear_drift
+mortality_age_standardized_rate,2029,25.164847929585907,Drift,linear_drift
+mortality_age_standardized_rate,2030,22.591699798323972,Drift,linear_drift
+mortality_all_age_rate,2024,23.479377002809475,Drift,linear_drift
+mortality_all_age_rate,2025,22.208468209690203,Drift,linear_drift
+mortality_all_age_rate,2026,20.937559416570927,Drift,linear_drift
+mortality_all_age_rate,2027,19.666650623451655,Drift,linear_drift
+mortality_all_age_rate,2028,18.395741830332383,Drift,linear_drift
+mortality_all_age_rate,2029,17.124833037213108,Drift,linear_drift
+mortality_all_age_rate,2030,15.853924244093836,Drift,linear_drift
+mortality_all_age_number,2024,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2025,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2026,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2027,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2028,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2029,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
+mortality_all_age_number,2030,8324.922130179872,ARIMA,"order=(0, 1, 1); aic=379.16"
