@@ -568,6 +568,11 @@ capture structural model uncertainty or unexpected future epidemiological
 shocks. Fourth, the mortality-to-incidence ratio was derived from population
 rates and should not be interpreted as a patient-level case fatality estimate.
 
+
+
+## Result outline
+1. raw Time seies plot
+
 ## References
 
 1. Global Burden of Disease Collaborative Network. Global Burden of Disease
