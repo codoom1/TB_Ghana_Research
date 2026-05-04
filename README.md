@@ -290,57 +290,7 @@ print(fc.head(12).round(3).to_string(index=False))
 PY
 ```
 
-## Outputs
 
-Trend tables:
-
-- `outputs/tables/trend_summary_1990_2023.csv`
-- `outputs/tables/year_over_year_percent_change.csv`
-- `outputs/tables/time_series_diagnostics.csv`
-- `outputs/tables/stationarity_tests_by_d.csv`
-- `outputs/tables/recommended_d_by_series.csv`
-- `outputs/tables/primary_age_standardized_decomposition_period5.csv`
-
-Forecast tables:
-
-- `outputs/tables/classical_model_evaluation_2018_2023.csv`
-- `outputs/tables/classical_forecasts_2024_2030.csv`
-- `outputs/tables/all_model_evaluation_2018_2023.csv`
-- `outputs/tables/best_models_by_series.csv`
-- `outputs/tables/best_model_forecasts_2024_2030.csv`
-- `outputs/tables/best_model_forecasts_2024_2030_with_uncertainty.csv`
-- `outputs/tables/all_model_forecasts_2024_2030.csv`
-- `outputs/model_outputs/all_model_test_predictions_2018_2023.csv`
-- `outputs/forecasts/best_model_forecasts_2024_2030.csv`
-- `outputs/forecasts/best_model_forecasts_2024_2030_with_uncertainty.csv`
-- `outputs/forecasts/forecast_uncertainty_simulations_2024_2030.csv`
-- `outputs/forecasts/all_model_forecasts_2024_2030.csv`
-
-Figures:
-
-- `outputs/figures/trend/incidence_rates_trend.png`
-- `outputs/figures/trend/mortality_rates_trend.png`
-- `outputs/figures/trend/incidence_mortality_numbers_trend.png`
-- `outputs/figures/eda/primary_age_standardized_series_over_time.png`
-- `outputs/figures/eda/primary_age_standardized_rates_by_sex.png`
-- `outputs/figures/eda/primary_age_standardized_incidence_mortality_bar_comparison.png`
-- `outputs/figures/eda/mortality_to_incidence_ratio_trend.png`
-- `outputs/figures/eda/acf_pacf_incidence_age_standardized_rate.png`
-- `outputs/figures/eda/acf_pacf_mortality_age_standardized_rate.png`
-- `outputs/figures/eda/decomposition_incidence_age_standardized_rate_period5.png`
-- `outputs/figures/eda/decomposition_mortality_age_standardized_rate_period5.png`
-- `outputs/figures/forecasts/classical_forecasts_2024_2030_subplots.png`
-- `outputs/figures/evaluation/all_model_test_predictions_subplots.png`
-- `outputs/figures/evaluation/evaluation_errors_classical_models.png`
-- `outputs/figures/evaluation/evaluation_errors_deep_learning_models.png`
-- `outputs/figures/evaluation/evaluation_errors_all_models.png`
-- `outputs/figures/forecasts/best_model_forecasts_2024_2030_subplots.png`
-- `outputs/figures/uncertainty/best_model_forecasts_2024_2030_with_uncertainty.png`
-- `outputs/figures/forecasts/all_model_forecasts_incidence_age_standardized_rate_2x4.png`
-- `outputs/figures/forecasts/all_model_forecasts_mortality_age_standardized_rate_2x4.png`
-- `outputs/figures/forecasts/all_model_forecasts_mortality_to_incidence_age_standardized_ratio_2x4.png`
-- `outputs/figures/forecasts/mortality_to_incidence_ratio_forecasts_by_model_2x4.png`
-- `outputs/figures/eda/*.png`
 
 ## Stationarity Handling
 
@@ -360,25 +310,8 @@ Stationarity is handled by model type:
 - Stationarity diagnostics are saved in `outputs/tables/stationarity_tests_by_d.csv`
   and `outputs/tables/recommended_d_by_series.csv`.
 
-## GitHub Preparation
 
-The repository is ready to publish with code, documentation, processed outputs,
-and figures. Before pushing, review whether you want to include the raw GBD CSV
-in `data/TB_df/`; it is public IHME output but still larger than the code files.
 
-Recommended first commit:
+## Note
 
-```bash
-git init
-git add .
-git status
-git commit -m "Initial Ghana TB forecasting pipeline"
-```
-
-Then create an empty GitHub repository and push:
-
-```bash
-git branch -M main
-git remote add origin https://github.com/<username>/<repo-name>.git
-git push -u origin main
-```
+See `docs/methodology_manuscript.md` for detailed explaination of the methods used in the project. 
