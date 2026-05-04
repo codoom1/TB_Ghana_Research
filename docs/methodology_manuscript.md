@@ -108,6 +108,12 @@ whereas the KPSS test evaluates the null hypothesis that the series is
 stationary. These tests are therefore complementary: evidence for stationarity
 corresponds to a small ADF p-value and a large KPSS p-value.
 
+To support the formal tests, each primary age-standardized series was also
+plotted with its observed annual values, a trailing 5-year rolling mean, and a
+5-year rolling standard deviation band. This visualization was used to inspect
+whether the central tendency and variability changed over time, which is a
+common visual sign of nonstationarity in short annual series.
+
 For a series `y_t`, first differencing was defined as:
 
 ```text
@@ -505,6 +511,25 @@ interpreted as simulation-based forecast uncertainty intervals that propagate
 GBD input uncertainty through the selected model. They are not formal
 frequentist confidence intervals and do not fully capture structural model
 uncertainty, omitted covariates, or future epidemiological shocks.
+
+A more technical description is as follows. The beta-PERT distribution is a parameterization of the beta distribution, defined by a lower bound $a$, an upper bound $b$, and a mode (most likely value) $m$ (where $a < m < b$). The shape parameters for the underlying beta distribution are:
+
+$$
+\alpha = 1 + \lambda \cdot \frac{m - a}{b - a}
+$$
+
+$$
+\beta = 1 + \lambda \cdot \frac{b - m}{b - a}
+$$
+
+where $\lambda$ is a positive shape parameter (commonly $\lambda = 4$ for the standard PERT distribution). A random variable $X$ following the beta-PERT distribution is generated as:
+
+$$
+X = a + (b - a) \cdot Y
+$$
+
+where $Y \sim \mathrm{Beta}(\alpha, \beta)$. This construction ensures the distribution is bounded between $a$ and $b$, with the mode at $m$, and allows for asymmetry depending on the location of $m$. In this analysis, the GBD lower bound is $a$, the upper bound is $b$, and the GBD point estimate is $m$. The shape parameter $\lambda$ controls the peakedness of the distribution; higher values concentrate more probability near the mode.
+
 
 ## Software and Reproducibility
 

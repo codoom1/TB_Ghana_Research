@@ -72,7 +72,7 @@ def sample_pert(
     mode: np.ndarray,
     upper: np.ndarray,
     rng: np.random.Generator,
-    shape: float = 4.0,
+    shape: float = 4.0, ## The standard PERT distribution uses a shape of 4, which gives a reasonable balance of central concentration and tail weight. Adjust as needed for more or less variability.
 ) -> np.ndarray:
     # A scaled beta-PERT distribution respects the GBD lower and upper bounds
     # while centering simulated histories around the reported point estimate.
@@ -207,7 +207,7 @@ def plot_uncertainty_forecasts(data: pd.DataFrame, intervals: pd.DataFrame) -> N
     # layout. If --all-series is used later, the same code wraps into rows of 3.
     ncols = min(3, max(1, len(plot_series)))
     nrows = int(np.ceil(len(plot_series) / ncols))
-    fig, axes = plt.subplots(nrows, ncols, figsize=(8.5 * ncols, 5.8 * nrows), squeeze=False)
+    fig, axes = plt.subplots(nrows, ncols, figsize=(10.5 * ncols, 8.8 * nrows), squeeze=False)
     axes = axes.ravel()
 
     for ax, series in zip(axes, plot_series):
@@ -251,7 +251,7 @@ def plot_uncertainty_forecasts(data: pd.DataFrame, intervals: pd.DataFrame) -> N
         ax.axis("off")
 
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.99, 0.5), frameon=False)
+    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.60, 0.5), frameon=False)
     fig.suptitle("Best-model forecasts with propagated GBD uncertainty, 2024-2030", y=0.995)
     fig.tight_layout(rect=(0, 0, 0.84, 0.95))
     fig.savefig(UNCERTAINTY_FIGURE_DIR / "best_model_forecasts_2024_2030_with_uncertainty.png", dpi=300, bbox_inches="tight")
