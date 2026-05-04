@@ -571,9 +571,10 @@ rates and should not be interpreted as a patient-level case fatality estimate.
 
 
 ## Result outline
+
 1. raw Time seies plot
    - trend of TB (Incidence, Death, and ratio)
-   - stratified by age, sex (optional as suplimentary material)
+   - stratified by age, sex (optional as suplementary material)
 
 2. Stationary Assessment
    - Rolling mean plot
@@ -581,12 +582,15 @@ rates and should not be interpreted as a patient-level case fatality estimate.
 
 3. Trend + Forecast
    - Trend and the forecast plots
+   - mortality to incidence ratio trend (This is likely one of our contributions)
 
-4. Model comparision
+4. Model comparision (8 models): second contribution
    - Table 1 for performace evaluation results
    - Table 2 that compares actual predictions (For incidence only, we can decide)
 
-5. Best Model forecast with uncertainity band
+5. Best Model forecast with uncertainity band (Third contribution)
+
+6. The rest can be supplementary materials
    
 
 ## References
