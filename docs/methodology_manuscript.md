@@ -198,9 +198,9 @@ future horizons. For horizon `h`, the forecast was:
 yhat_(T+h) = y_T
 ```
 
-where `T` is the final year in the training period. This model was included as a
-minimal benchmark because any useful forecasting model should generally perform
-at least as well as persistence.
+where `T` is the final year in the training period. This model was included as
+a minimal benchmark because any useful forecasting model should generally
+perform at least as well as persistence.
 
 ### Drift Model
 
@@ -496,6 +496,41 @@ more informative for this derived endpoint than a single long-run linear trend.
 This endpoint-specific result was interpreted cautiously and was not taken as
 evidence that the causal TCN was universally superior to classical models.
 
+### Final Model Specifications
+
+The final competition used the following model configurations:
+
+| Model | Final specification |
+| --- | --- |
+| Naive | Last observed value carried forward; no tuning parameters. |
+| Drift | Linear extrapolation from the first and last training observations; no tuning parameters. |
+| ARIMA | Candidate orders `(0,1,0)`, `(1,1,0)`, `(0,1,1)`, `(1,1,1)`; `d` chosen from the training data using ADF/KPSS; best AIC model retained. |
+| ETS | Candidate level/trend forms with optional damped trend; best AIC model retained. |
+| LSTM | First-difference preprocessing; sequence length `5`; two LSTM layers with a ReLU head; hidden size `16`; Adam learning rate `0.001`; batch size `32`; `10` TimeSeriesSplit folds; patience `10`; maximum `300` epochs. |
+| Causal TCN | First-difference preprocessing; sequence length `8`; dilations `(1, 2, 4)`; channels `16`; kernel size `3`; dropout `0.10`; Adam learning rate `0.001`; batch size `16`; `5` TimeSeriesSplit folds; patience `10`; maximum `300` epochs. |
+| ARIMA-LSTM | ARIMA baseline with a residual LSTM on standardized ARIMA residuals; residual hidden size `12`; two LSTM layers with a ReLU head; Adam learning rate `0.001`; batch size `32`; `10` TimeSeriesSplit folds; patience `10`; maximum `300` epochs. |
+| Multistep LSTM | First-difference preprocessing; sequence length `8`; forecast horizon `7`; two LSTM layers with a ReLU head; hidden size `16`; Adam learning rate `0.001`; batch size `16`; `5` TimeSeriesSplit folds; patience `10`; maximum `300` epochs. |
+
+### Diagnostic Architecture Experiments
+
+Additional diagnostic comparisons were run during model development to test
+whether small changes in neural-network architecture or preprocessing improved
+holdout performance. For the LSTM family, a one-layer model was compared with a
+two-layer LSTM using a ReLU prediction head under the same temporal holdout.
+The two-layer + ReLU version performed better on the primary incidence and
+mortality series and was adopted as the default LSTM configuration, while the
+ratio series remained more mixed.
+
+For the causal TCN, a second diagnostic pass compared first-differenced inputs
+with raw levels, then compared a small set of dilation schedules, channel
+widths, and kernel sizes while keeping the first-difference preprocessing
+fixed. The raw-level versions were consistently worse than the first-differenced
+versions, so the TCN remained on first differences. The architecture sweep was
+more mixed: shallower and slightly wider variants could help individual series,
+but no single depth, width, or kernel-size change improved all primary series at
+once. For that reason, the project kept the existing causal TCN design as the
+global default rather than switching to a more complex universal setting.
+
 ## Forecast Uncertainty Intervals
 
 Forecast uncertainty was summarized using two separate simulation-based
@@ -608,29 +643,10 @@ rates and should not be interpreted as a patient-level case fatality estimate.
 
 
 
-## Result outline
+## Result Summary
 
-1. raw Time seies plot
-   - trend of TB (Incidence, Death, and ratio)
-   - stratified by age, sex (optional as suplementary material)
+Across the full model competition, the classical baselines remained strong for the direct burden series, while the neural models were most useful as a targeted complement rather than a universal replacement. The LSTM diagnostics showed that a two-layer LSTM with a ReLU prediction head outperformed the earlier single-layer version on the primary incidence and mortality series, so that architecture was adopted as the default LSTM setup. For the causal TCN, first-differenced inputs clearly outperformed raw levels, but the architecture sweeps were mixed: shallower or moderately wider variants helped some series, yet no single dilation, width, or kernel-size change dominated all primary outcomes. In the final holdout evaluation, LSTM was the best RMSE model for incidence age-standardized rate, Drift was best for mortality age-standardized rate, and ETS was best for the mortality-to-incidence ratio. These results support a parsimonious final forecasting strategy and suggest that the ratio series follows a different temporal pattern than the direct burden rates.
 
-2. Stationary Assessment
-   - Rolling mean plots for the three primary modeling series
-   - acf and pacf for level and first-differenced primary series, supported by
-     ADF/KPSS tests at d = 0, 1, and 2
-
-3. Trend + Forecast
-   - Trend and the forecast plots
-   - mortality to incidence ratio trend (This is likely one of our contributions)
-
-4. Model comparision (8 models): second contribution
-   - Table 1 for performace evaluation results
-   - Table 2 that compares actual predictions (For incidence only, we can decide)
-
-5. Best Model forecast with uncertainity band (Third contribution)
-
-6. The rest can be supplementary materials
-   
 
 ## References
 

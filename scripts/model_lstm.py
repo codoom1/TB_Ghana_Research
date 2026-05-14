@@ -25,19 +25,28 @@ MODEL_NAME = "LSTM"
 
 
 class OneStepLSTM(nn.Module):
-    def __init__(self, hidden_size: int = 16) -> None:
+    def __init__(self, hidden_size: int = 16, num_layers: int = 2) -> None:
         super().__init__()
         # input_size=1 because each time step contains one value: the
         # standardized first difference of the TB series.
-        self.lstm = nn.LSTM(input_size=1, hidden_size=hidden_size, batch_first=True)
-        # Map the final hidden state to one predicted next difference.
-        self.linear = nn.Linear(hidden_size, 1)
+        self.lstm = nn.LSTM(
+            input_size=1,
+            hidden_size=hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+        )
+        # Use a small nonlinear head after the stacked LSTM layers.
+        self.head = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, 1),
+        )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x shape: batch x seq_len x 1.
         output, _ = self.lstm(x)
         # Use only the final time step because it summarizes the lag window.
-        return self.linear(output[:, -1, :]).squeeze(-1)
+        return self.head(output[:, -1, :]).squeeze(-1)
 
 
 def _device() -> torch.device:
@@ -174,9 +183,9 @@ def forecast(
         for fold_idx, (train_idx, val_idx) in enumerate(splitter.split(split_indices), start=1):
             if progress_callback is not None:
                 progress_callback(
-                    f"Training model LSTM, fold {fold_idx}/{effective_splits}: training on {len(train_idx)} windows, validating on {len(val_idx)} windows"
+                    f"Training model LSTM (2-layer + ReLU), fold {fold_idx}/{effective_splits}: training on {len(train_idx)} windows, validating on {len(val_idx)} windows"
                 )
-            fold_model = OneStepLSTM(hidden_size=hidden_size).to(device)
+            fold_model = OneStepLSTM(hidden_size=hidden_size, num_layers=2).to(device)
             _, best_epoch = _fit_fold(
                 fold_model,
                 x_tensor[train_idx],
@@ -198,8 +207,8 @@ def forecast(
 
     # Refit the model on all available training windows before forecasting.
     if progress_callback is not None:
-        progress_callback(f"Training model LSTM on all windows for {final_epochs} epochs")
-    model = OneStepLSTM(hidden_size=hidden_size).to(device)
+        progress_callback(f"Training model LSTM (2-layer + ReLU) on all windows for {final_epochs} epochs")
+    model = OneStepLSTM(hidden_size=hidden_size, num_layers=2).to(device)
     model = _fit_full_model(
         model,
         x_tensor,
@@ -234,7 +243,7 @@ def forecast(
     # Reconstruct forecasted levels from the final observed training level.
     predictions = difference_transform.inverse_forecast(predicted_differences)
     params = (
-        f"transform=first_difference; seq_len={seq_len}; hidden_size={hidden_size}; "
+        f"transform=first_difference; seq_len={seq_len}; hidden_size={hidden_size}; num_layers=2; relu_head=True; "
         f"max_epochs={epochs}; final_epochs={final_epochs}; batch_size={batch_size}; "
         f"patience={patience}; n_splits={effective_splits}; lr={lr}; device={device.type}"
     )

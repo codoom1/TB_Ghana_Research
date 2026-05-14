@@ -23,19 +23,28 @@ MODEL_NAME = "ARIMA_LSTM"
 
 
 class ResidualLSTM(nn.Module):
-    def __init__(self, hidden_size: int = 12) -> None:
+    def __init__(self, hidden_size: int = 12, num_layers: int = 2) -> None:
         super().__init__()
         # Residual sequence has one feature at each time step: standardized
         # ARIMA residual.
-        self.lstm = nn.LSTM(input_size=1, hidden_size=hidden_size, batch_first=True)
-        # Predict one next residual correction.
-        self.linear = nn.Linear(hidden_size, 1)
+        self.lstm = nn.LSTM(
+            input_size=1,
+            hidden_size=hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+        )
+        # Predict one next residual correction with a small nonlinear head.
+        self.head = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, 1),
+        )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x shape: batch x seq_len x 1.
         output, _ = self.lstm(x)
         # Final hidden state summarizes the residual lag window.
-        return self.linear(output[:, -1, :]).squeeze(-1)
+        return self.head(output[:, -1, :]).squeeze(-1)
 
 
 def _device() -> torch.device:
@@ -223,7 +232,7 @@ def forecast(
                 progress_callback(
                     f"Training model ARIMA_LSTM, fold {fold_idx}/{effective_splits}: training on {len(train_idx)} residual windows, validating on {len(val_idx)} residual windows"
                 )
-            fold_model = ResidualLSTM(hidden_size=hidden_size).to(device)
+            fold_model = ResidualLSTM(hidden_size=hidden_size, num_layers=2).to(device)
             _, best_epoch = _fit_fold(
                 fold_model,
                 x_tensor[train_idx],
@@ -246,7 +255,7 @@ def forecast(
     # Refit the residual correction model on all windows.
     if progress_callback is not None:
         progress_callback(f"Training model ARIMA_LSTM on all residual windows for {final_epochs} epochs")
-    model = ResidualLSTM(hidden_size=hidden_size).to(device)
+    model = ResidualLSTM(hidden_size=hidden_size, num_layers=2).to(device)
     model = _fit_full_model(
         model,
         x_tensor,
@@ -279,7 +288,7 @@ def forecast(
     prediction = arima_forecast + residual_forecast
     params = (
         f"selected_d={selected_d}; {d_reason}; order={order}; aic={aic:.2f}; residual_seq_len={seq_len}; "
-        f"hidden_size={hidden_size}; max_epochs={epochs}; final_epochs={final_epochs}; "
+        f"hidden_size={hidden_size}; num_layers=2; relu_head=True; max_epochs={epochs}; final_epochs={final_epochs}; "
         f"batch_size={batch_size}; patience={patience}; n_splits={effective_splits}; lr={lr}; device={device.type}"
     )
     if progress_callback is not None:

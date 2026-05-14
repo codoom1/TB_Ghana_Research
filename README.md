@@ -16,7 +16,8 @@ endpoints to 2030.
 │   ├── TB_df/                         # Raw IHME GBD export and citation
 │   └── processed/                     # Clean long/wide modeling datasets
 ├── docs/
-│   └── methods_model_documentation.md # Methods, equations, rationale, citations
+│   ├── methods_model_documentation.md # Methods, equations, rationale, citations
+│   └── methodology_manuscript.md      # Manuscript-style methods/results summary
 ├── outputs/
 │   ├── figures/
 │   │   ├── trend/                     # Initial trend-analysis figures
@@ -34,6 +35,9 @@ endpoints to 2030.
 │   ├── 03_train_evaluate_all_models.py# Full 8-model training/evaluation workflow
 │   ├── 04_forecast_best_models.py     # Final best-model and all-model forecasts
 │   ├── 05_forecast_uncertainty.py     # Simulation-based forecast uncertainty
+│   ├── compare_lstm_architectures.py   # LSTM architecture and differencing diagnostics
+│   ├── compare_tcn_transforms.py      # TCN preprocessing diagnostics
+│   ├── compare_tcn_architectures.py    # TCN depth / width / kernel diagnostics
 │   └── model_*.py                     # Individual model implementations
 └── README.md
 ```
@@ -160,10 +164,11 @@ python scripts/04_forecast_best_models.py --epochs 300 --all-series
 To run only a specific endpoint:
 
 ```bash
-python scripts/03_train_evaluate_all_models.py \
-  --epochs 300 \
-  --series incidence_age_standardized_rate
+python scripts/03_train_evaluate_all_models.py --epochs 300
 ```
+
+The main training script evaluates the primary three endpoints by default.
+Use `--all-series` to include all seven prepared series.
 
 ## Pipeline Steps
 
@@ -255,10 +260,33 @@ Detailed model definitions, equations, rationale, limitations, and citations
 are documented in:
 
 - `docs/methods_model_documentation.md`
+- `docs/methodology_manuscript.md`
 
-The deep learning models currently use TimeSeriesSplit cross-validation, Adam
-with learning rate 0.001, batch size 32, and early stopping patience 10 before
-refitting on all available training windows.
+## Model Diagnostics and Final Defaults
+
+The project now includes small diagnostic scripts that were used to compare
+model variants before locking in the final defaults:
+
+- `scripts/compare_lstm_architectures.py` compares the single-layer LSTM with a
+  two-layer LSTM + ReLU head, and compares first-differenced inputs with raw
+  levels.
+- `scripts/compare_tcn_transforms.py` compares first-differenced TCN inputs
+  with raw levels.
+- `scripts/compare_tcn_architectures.py` compares shallow, default, and deeper
+  TCN dilation schedules, plus channel width and kernel-size settings.
+
+The final neural defaults are:
+
+| Model | Final default |
+| --- | --- |
+| LSTM | First differences, sequence length 5, 2 LSTM layers, ReLU head, hidden size 16, Adam learning rate 0.001, batch size 32, TimeSeriesSplit folds 10, patience 10. |
+| Causal_TCN | First differences, sequence length 8, dilations (1, 2, 4), channels 16, kernel size 3, dropout 0.10, Adam learning rate 0.001, batch size 16, TimeSeriesSplit folds 5, patience 10. |
+| ARIMA_LSTM | ARIMA baseline with residual LSTM on standardized ARIMA residuals, 2 LSTM layers, ReLU head, hidden size 12, Adam learning rate 0.001, batch size 32, TimeSeriesSplit folds 10, patience 10. |
+| Multistep_LSTM | First differences, sequence length 8, forecast horizon 7, 2 LSTM layers, ReLU head, hidden size 16, Adam learning rate 0.001, batch size 16, TimeSeriesSplit folds 5, patience 10. |
+
+Most neural models use TimeSeriesSplit cross-validation, Adam, and early
+stopping patience 10 before refitting on all available training windows. The
+exact model settings are documented in `docs/methodology_manuscript.md`.
 
 ## Useful Output Checks
 
