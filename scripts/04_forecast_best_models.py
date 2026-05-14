@@ -425,7 +425,7 @@ def plot_mortality_to_incidence_ratio_by_model(data: pd.DataFrame, all_forecasts
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--epochs", type=int, default=250, help="Epochs for each PyTorch model.")
+    parser.add_argument("--epochs", type=int, default=300, help="Maximum epochs for each PyTorch model.")
     parser.add_argument(
         "--best-model-path",
         default=str(TABLE_DIR / "best_models_by_series.csv"),

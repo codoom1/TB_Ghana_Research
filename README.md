@@ -136,7 +136,7 @@ python scripts/00_eda_stationarity.py
 python scripts/03_train_evaluate_all_models.py --epochs 50
 
 # 4. Refit selected best models and forecast 2024-2030
-python scripts/04_forecast_best_models.py --epochs 50
+python scripts/04_forecast_best_models.py --epochs 100
 
 # 5. Propagate GBD uncertainty intervals through the selected best models
 python scripts/05_forecast_uncertainty.py --n-sim 100 --epochs 50
@@ -153,15 +153,15 @@ mortality_to_incidence_age_standardized_ratio
 To include all seven prepared series, add `--all-series` to steps 3 and 4:
 
 ```bash
-python scripts/03_train_evaluate_all_models.py --epochs 50 --all-series
-python scripts/04_forecast_best_models.py --epochs 50 --all-series
+python scripts/03_train_evaluate_all_models.py --epochs 300 --all-series
+python scripts/04_forecast_best_models.py --epochs 300 --all-series
 ```
 
 To run only a specific endpoint:
 
 ```bash
 python scripts/03_train_evaluate_all_models.py \
-  --epochs 50 \
+  --epochs 300 \
   --series incidence_age_standardized_rate
 ```
 
@@ -192,21 +192,21 @@ The classical script evaluates Naive, Drift, ARIMA, and ETS models on a
 Run the full model competition with progress:
 
 ```bash
-python scripts/03_train_evaluate_all_models.py --epochs 50
+python scripts/03_train_evaluate_all_models.py --epochs 300
 ```
 
 By default, this evaluates the three primary age-standardized endpoints. To run
 all seven series:
 
 ```bash
-python scripts/03_train_evaluate_all_models.py --epochs 50 --all-series
+python scripts/03_train_evaluate_all_models.py --epochs 300 --all-series
 ```
 
 Run final 2024-2030 forecasts from the selected best model for each primary
 series:
 
 ```bash
-python scripts/04_forecast_best_models.py --epochs 50
+python scripts/04_forecast_best_models.py --epochs 300
 ```
 
 Use `--all-series` with the training and forecast scripts to include secondary
@@ -215,7 +215,7 @@ all-age rates and counts.
 Run simulation-based forecast uncertainty intervals:
 
 ```bash
-python scripts/05_forecast_uncertainty.py --n-sim 100 --epochs 50
+python scripts/05_forecast_uncertainty.py --n-sim 100 --epochs 300
 ```
 
 This samples historical trajectories from each GBD `lower`, `val`, and `upper`
@@ -255,6 +255,10 @@ Detailed model definitions, equations, rationale, limitations, and citations
 are documented in:
 
 - `docs/methods_model_documentation.md`
+
+The deep learning models currently use TimeSeriesSplit cross-validation, Adam
+with learning rate 0.001, batch size 32, and early stopping patience 10 before
+refitting on all available training windows.
 
 ## Useful Output Checks
 

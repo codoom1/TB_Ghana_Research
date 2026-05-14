@@ -1,4 +1,4 @@
 series,model,params,train_start,train_end,test_start,test_end,runtime_seconds,status,error,mae,rmse,mape
-incidence_age_standardized_rate,Drift,linear_drift,1990,2017,2018,2023,1.1041003745049238e-05,ok,,9.550637157985179,10.798427304537832,4.168305525427471
-mortality_age_standardized_rate,Drift,linear_drift,1990,2017,2018,2023,1.2708005669992417e-05,ok,,0.542331277867857,0.6438675598533998,1.1350926223505091
-mortality_to_incidence_age_standardized_ratio,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",1990,2017,2018,2023,0.4827395409956807,ok,,0.007941393164073532,0.009169168924959678,3.8010635936533212
+incidence_age_standardized_rate,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=53; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,1990,2017,2018,2023,3.180026459000146,ok,,7.12486344679165,7.520689402039505,3.2074076291187392
+mortality_age_standardized_rate,Drift,linear_drift,1990,2017,2018,2023,6.008399986967561e-05,ok,,0.542331277867857,0.6438675598533998,1.1350926223505091
+mortality_to_incidence_age_standardized_ratio,ETS,trend=add; damped=False; aic=-334.64,1990,2017,2018,2023,0.010329333999834489,ok,,0.008640460933141492,0.009484106359029507,4.1368477490336

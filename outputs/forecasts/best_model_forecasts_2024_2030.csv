@@ -1,11 +1,11 @@
 series,year,forecast,selected_model,model_params,selection_rmse,selection_mape
-incidence_age_standardized_rate,2024,185.89424059581395,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2025,177.08982417343788,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2026,168.28540775106183,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2027,159.48099132868577,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2028,150.67657490630972,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2029,141.87215848393365,Drift,linear_drift,10.798427304537832,4.168305525427471
-incidence_age_standardized_rate,2030,133.0677420615576,Drift,linear_drift,10.798427304537832,4.168305525427471
+incidence_age_standardized_rate,2024,186.00101287340564,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2025,177.228890670136,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2026,168.41341174281257,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2027,160.15469429732792,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2028,152.6095451155171,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2029,145.36741691964687,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
+incidence_age_standardized_rate,2030,138.3007080166998,LSTM,transform=first_difference; seq_len=5; hidden_size=16; max_epochs=500; final_epochs=66; batch_size=32; patience=10; n_splits=10; lr=0.001; device=mps,7.520689402039505,3.2074076291187392
 mortality_age_standardized_rate,2024,38.03058858589558,Drift,linear_drift,0.6438675598533998,1.1350926223505091
 mortality_age_standardized_rate,2025,35.45744045463364,Drift,linear_drift,0.6438675598533998,1.1350926223505091
 mortality_age_standardized_rate,2026,32.88429232337171,Drift,linear_drift,0.6438675598533998,1.1350926223505091
@@ -13,10 +13,10 @@ mortality_age_standardized_rate,2027,30.311144192109772,Drift,linear_drift,0.643
 mortality_age_standardized_rate,2028,27.73799606084784,Drift,linear_drift,0.6438675598533998,1.1350926223505091
 mortality_age_standardized_rate,2029,25.164847929585907,Drift,linear_drift,0.6438675598533998,1.1350926223505091
 mortality_age_standardized_rate,2030,22.591699798323972,Drift,linear_drift,0.6438675598533998,1.1350926223505091
-mortality_to_incidence_age_standardized_ratio,2024,0.20694365654614177,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2025,0.19945646293020833,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2026,0.19926885114098086,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2027,0.19724061600377712,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2028,0.1922672336737579,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2029,0.18944643782991477,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
-mortality_to_incidence_age_standardized_ratio,2030,0.1834810778987536,Causal_TCN,"transform=first_difference; architecture=causal_tcn; seq_len=5; channels=12; kernel_size=2; dilations=(1,2); dropout=0.05; epochs=50; lr=0.01; device=mps",0.0091691689249596,3.8010635936533217
+mortality_to_incidence_age_standardized_ratio,2024,0.2104225117825833,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2025,0.2119232668365055,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2026,0.21312387087964324,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2027,0.21408435411415344,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2028,0.21485274070176158,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2029,0.2154674499718481,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336
+mortality_to_incidence_age_standardized_ratio,2030,0.21595921738791735,ETS,trend=add; damped=True; aic=-397.82,0.0094841063590295,4.1368477490336

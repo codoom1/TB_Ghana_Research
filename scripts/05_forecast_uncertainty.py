@@ -197,6 +197,7 @@ def simulate_forecast_intervals(
         combined_paths = []
 
         for sim_id in range(n_sim):
+            tqdm.write(f"Simulating {series} with {model_name}, run {sim_id + 1}/{n_sim}...")
             sampled_history = sample_pert(lower, mode, upper, rng)
             try:
                 model_kwargs = {}
@@ -206,10 +207,16 @@ def simulate_forecast_intervals(
                         "selected_d": arima_selected_d,
                         "d_reason": f"{arima_d_reason}; source=simulated_history",
                     }
+                if model_name in {"LSTM", "Causal_TCN", "ARIMA_LSTM", "Multistep_LSTM"}:
+                    model_kwargs["progress_callback"] = lambda message, _series=series, _model=model_name, _sim=sim_id + 1: tqdm.write(
+                        f"{_series} | {_model} | sim {_sim}: {message}"
+                    )
                 result = runner(sampled_history, steps, **model_kwargs)
                 gbd_forecast = np.maximum(np.asarray(result.predictions, dtype=float), 0)
+                tqdm.write(f"{model_name} done training for {series}, simulation {sim_id + 1}/{n_sim}")
             except Exception:
                 gbd_forecast = np.repeat(np.nan, steps)
+                tqdm.write(f"Simulation failed for {series} with {model_name}, simulation {sim_id + 1}/{n_sim}")
 
             model_error = sample_model_error(model_residuals, steps, rng)
             combined_forecast = np.maximum(gbd_forecast + model_error, 0)

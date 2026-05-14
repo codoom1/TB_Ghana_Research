@@ -288,7 +288,7 @@ def plot_error_comparisons(evaluation: pd.DataFrame) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--epochs", type=int, default=250, help="Epochs for each PyTorch model.")
+    parser.add_argument("--epochs", type=int, default=300, help="Maximum epochs for each PyTorch model.")
     parser.add_argument(
         "--all-series",
         action="store_true",
@@ -320,12 +320,17 @@ def main() -> None:
         for model_name, runner in models.items():
             start = time.perf_counter()
             try:
+                tqdm.write(f"Training model {model_name} for series {series}...")
                 model_kwargs = {}
                 if model_name in {"ARIMA", "ARIMA_LSTM"}:
                     model_kwargs = {
                         "selected_d": arima_selected_d,
                         "d_reason": f"{arima_d_reason}; source=training_period",
                     }
+                if model_name in {"LSTM", "Causal_TCN", "ARIMA_LSTM", "Multistep_LSTM"}:
+                    model_kwargs["progress_callback"] = lambda message, _series=series, _model=model_name: tqdm.write(
+                        f"{_series} | {_model}: {message}"
+                    )
                 result = runner(train, steps, **model_kwargs)
                 predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
                 status = "ok"
@@ -337,6 +342,10 @@ def main() -> None:
                 error = repr(exc)
 
             elapsed = time.perf_counter() - start
+            if status == "ok":
+                tqdm.write(f"{model_name} done training for series {series} in {elapsed:.1f}s")
+            else:
+                tqdm.write(f"Training failed for model {model_name} on series {series}: {error}")
             progress.set_postfix(series=series[:18], model=model_name, status=status)
             progress.update(1)
 

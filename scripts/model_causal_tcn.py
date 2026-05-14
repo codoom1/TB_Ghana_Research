@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+from typing import Callable
+
 import numpy as np
 import torch
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import StandardScaler
 from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
 
 from model_common import (
     DifferenceTransform,
@@ -64,10 +69,10 @@ class ResidualTCNBlock(nn.Module):
 class CausalTCN(nn.Module):
     def __init__(
         self,
-        channels: int = 12,
-        kernel_size: int = 2,
-        dilations: tuple[int, ...] = (1, 2),
-        dropout: float = 0.05,
+        channels: int = 16,
+        kernel_size: int = 3,
+        dilations: tuple[int, ...] = (1, 2, 4),
+        dropout: float = 0.10,
     ) -> None:
         super().__init__()
         # Convert the single input channel into a richer channel representation.
@@ -105,16 +110,105 @@ def _device() -> torch.device:
     return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 
+def _fit_fold(
+    model: nn.Module,
+    train_x: torch.Tensor,
+    train_y: torch.Tensor,
+    val_x: torch.Tensor,
+    val_y: torch.Tensor,
+    *,
+    device: torch.device,
+    lr: float,
+    batch_size: int,
+    max_epochs: int,
+    patience: int,
+) -> tuple[nn.Module, int]:
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    loss_fn = nn.MSELoss()
+    train_loader = DataLoader(
+        TensorDataset(train_x, train_y),
+        batch_size=min(batch_size, len(train_x)),
+        shuffle=False,
+    )
+
+    best_state = deepcopy(model.state_dict())
+    best_val_loss = float("inf")
+    best_epoch = 0
+    stagnant_epochs = 0
+
+    for epoch in range(1, max_epochs + 1):
+        model.train()
+        for batch_x, batch_y in train_loader:
+            batch_x = batch_x.to(device)
+            batch_y = batch_y.to(device)
+            optimizer.zero_grad()
+            loss = loss_fn(model(batch_x), batch_y)
+            loss.backward()
+            optimizer.step()
+
+        model.eval()
+        with torch.no_grad():
+            val_loss = loss_fn(model(val_x.to(device)), val_y.to(device)).item()
+
+        if val_loss < best_val_loss - 1e-12:
+            best_val_loss = val_loss
+            best_state = deepcopy(model.state_dict())
+            best_epoch = epoch
+            stagnant_epochs = 0
+        else:
+            stagnant_epochs += 1
+            if stagnant_epochs >= patience:
+                break
+
+    model.load_state_dict(best_state)
+    return model, best_epoch
+
+
+def _fit_full_model(
+    model: nn.Module,
+    train_x: torch.Tensor,
+    train_y: torch.Tensor,
+    *,
+    device: torch.device,
+    lr: float,
+    batch_size: int,
+    epochs: int,
+) -> nn.Module:
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    loss_fn = nn.MSELoss()
+    train_loader = DataLoader(
+        TensorDataset(train_x, train_y),
+        batch_size=min(batch_size, len(train_x)),
+        shuffle=False,
+    )
+
+    model.train()
+    for _ in range(epochs):
+        for batch_x, batch_y in train_loader:
+            batch_x = batch_x.to(device)
+            batch_y = batch_y.to(device)
+            optimizer.zero_grad()
+            loss = loss_fn(model(batch_x), batch_y)
+            loss.backward()
+            optimizer.step()
+
+    return model
+
+
 def forecast(
     train: np.ndarray,
     steps: int,
-    seq_len: int = 5,
-    epochs: int = 250,
-    lr: float = 0.01,
-    channels: int = 12,
-    kernel_size: int = 2,
-    dropout: float = 0.05,
+    seq_len: int = 8,
+    epochs: int = 300,
+    lr: float = 0.001,
+    batch_size: int = 16,
+    patience: int = 10,
+    n_splits: int = 5,
+    channels: int = 16,
+    kernel_size: int = 3,
+    dropout: float = 0.10,
     seed: int = 42,
+    progress_callback: Callable[[str], None] | None = None,
 ) -> ForecastResult:
     # Reproducible initialization and training.
     set_global_seed(seed)
@@ -138,28 +232,62 @@ def forecast(
 
     device = _device()
     # Tensor shape before model transpose: batch x seq_len x 1.
-    x_tensor = torch.tensor(x[:, :, None], dtype=torch.float32, device=device)
-    y_tensor = torch.tensor(y, dtype=torch.float32, device=device)
+    x_tensor = torch.tensor(x[:, :, None], dtype=torch.float32)
+    y_tensor = torch.tensor(y, dtype=torch.float32)
 
-    # Initialize the causal TCN. Dilations are fixed small values for the short
-    # annual series.
+    fold_best_epochs: list[int] = []
+    effective_splits = min(n_splits, len(x_tensor) - 1)
+    if effective_splits >= 2:
+        splitter = TimeSeriesSplit(n_splits=effective_splits)
+        split_indices = np.arange(len(x_tensor))
+        for fold_idx, (train_idx, val_idx) in enumerate(splitter.split(split_indices), start=1):
+            if progress_callback is not None:
+                progress_callback(
+                    f"Training model Causal_TCN, fold {fold_idx}/{effective_splits}: training on {len(train_idx)} windows, validating on {len(val_idx)} windows"
+                )
+            fold_model = CausalTCN(
+                channels=channels,
+                kernel_size=kernel_size,
+                dilations=(1, 2, 4),
+                dropout=dropout,
+            ).to(device)
+            _, best_epoch = _fit_fold(
+                fold_model,
+                x_tensor[train_idx],
+                y_tensor[train_idx],
+                x_tensor[val_idx],
+                y_tensor[val_idx],
+                device=device,
+                lr=lr,
+                batch_size=batch_size,
+                max_epochs=epochs,
+                patience=patience,
+            )
+            fold_best_epochs.append(best_epoch)
+            if progress_callback is not None:
+                progress_callback(f"Causal_TCN fold {fold_idx}/{effective_splits} done (best_epoch={best_epoch})")
+
+    final_epochs = int(np.median(fold_best_epochs)) if fold_best_epochs else epochs
+    final_epochs = max(1, min(epochs, final_epochs))
+
+    # Refit on all available training windows before forecasting.
+    if progress_callback is not None:
+        progress_callback(f"Training model Causal_TCN on all windows for {final_epochs} epochs")
     model = CausalTCN(
         channels=channels,
         kernel_size=kernel_size,
-        dilations=(1, 2),
+        dilations=(1, 2, 4),
         dropout=dropout,
     ).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    loss_fn = nn.MSELoss()
-
-    model.train()
-    for _ in range(epochs):
-        # Full-batch training is acceptable because the supervised dataset is
-        # very small.
-        optimizer.zero_grad()
-        loss = loss_fn(model(x_tensor), y_tensor)
-        loss.backward()
-        optimizer.step()
+    model = _fit_full_model(
+        model,
+        x_tensor,
+        y_tensor,
+        device=device,
+        lr=lr,
+        batch_size=batch_size,
+        epochs=final_epochs,
+    )
 
     model.eval()
     # Recursive forecast: append each predicted standardized difference to the
@@ -183,7 +311,11 @@ def forecast(
     predictions = difference_transform.inverse_forecast(predicted_differences)
     params = (
         f"transform=first_difference; architecture=causal_tcn; seq_len={seq_len}; "
-        f"channels={channels}; kernel_size={kernel_size}; dilations=(1,2); "
-        f"dropout={dropout}; epochs={epochs}; lr={lr}; device={device.type}"
+        f"channels={channels}; kernel_size={kernel_size}; dilations=(1,2,4); "
+        f"dropout={dropout}; max_epochs={epochs}; final_epochs={final_epochs}; "
+        f"batch_size={batch_size}; patience={patience}; n_splits={effective_splits}; "
+        f"lr={lr}; device={device.type}"
     )
+    if progress_callback is not None:
+        progress_callback("Causal_TCN training complete")
     return ForecastResult(MODEL_NAME, params, predictions)

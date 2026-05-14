@@ -465,6 +465,9 @@ Implementation details:
 - Inputs are backward-looking lag windows.
 - One-step forecasts are generated recursively.
 - Predicted differences are inverted back to the original rate scale.
+- Training uses TimeSeriesSplit cross-validation to preserve temporal order.
+- Each fold uses Adam with learning rate 0.001, batch size 32, and early stopping with patience 10.
+- The final model is then refit on all available training windows before recursive forecasting.
 
 Data entry into the model:
 
@@ -526,6 +529,9 @@ The implemented TCN uses:
 - residual TCN blocks,
 - recursive one-step forecasting,
 - inverse transformation back to the original rate scale.
+- Training follows the same TimeSeriesSplit cross-validation and final refit
+  protocol as the LSTM, with Adam, learning rate 0.001, batch size 32, and
+  early stopping patience 10.
 
 Data entry into the model:
 
@@ -599,6 +605,10 @@ The final forecast is:
 ```text
 yhat_(T+h) = yhat_(T+h)^ARIMA + ehat_(T+h)^LSTM
 ```
+
+Training follows the same TimeSeriesSplit cross-validation and final refit
+protocol as the LSTM, with Adam, learning rate 0.001, batch size 32, and
+early stopping patience 10.
 
 Data entry into the residual LSTM:
 
@@ -682,6 +692,8 @@ Why caution is needed:
 
 - Direct multistep learning requires enough examples of full horizons.
 - With annual 1990-2023 data, the number of supervised windows is small.
+- The implementation still uses the same TimeSeriesSplit cross-validation and
+  final refit protocol, but the forecast is direct rather than recursive.
 
 ## Current Primary Results
 
