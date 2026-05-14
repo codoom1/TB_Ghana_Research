@@ -2,21 +2,9 @@ series,measure,age,metric,d,n_tested,adf_p,kpss_p,adf_stationary,kpss_stationary
 incidence_age_standardized_rate,Incidence,Age-standardized,Rate,0,34,0.015536142204625444,0.01,True,False,stationary_by_adf_only
 incidence_age_standardized_rate,Incidence,Age-standardized,Rate,1,33,0.7020944885880891,0.037966487157610626,False,False,nonstationary
 incidence_age_standardized_rate,Incidence,Age-standardized,Rate,2,32,0.8047053868041523,0.06259915934541158,False,True,stationary_by_kpss_only
-mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,0,34,0.9347788356908572,0.014531609710496546,False,False,nonstationary
-mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,1,33,0.0518679615607965,0.06215616417724559,False,True,stationary_by_kpss_only
-mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,2,32,0.04697309310079396,0.1,True,True,stationary_by_both_tests
-incidence_all_age_rate,Incidence,All ages,Rate,0,34,0.0023858393403584427,0.01,True,False,stationary_by_adf_only
-incidence_all_age_rate,Incidence,All ages,Rate,1,33,0.804271260556517,0.031923965055459545,False,False,nonstationary
-incidence_all_age_rate,Incidence,All ages,Rate,2,32,0.9678538972061986,0.07429093941030157,False,True,stationary_by_kpss_only
-incidence_all_age_number,Incidence,All ages,Number,0,34,4.3834617912301256e-05,0.06317624223614571,True,True,stationary_by_both_tests
-incidence_all_age_number,Incidence,All ages,Number,1,33,0.42940418813697423,0.1,False,True,stationary_by_kpss_only
-incidence_all_age_number,Incidence,All ages,Number,2,32,0.9738022306315753,0.08749559479207024,False,True,stationary_by_kpss_only
 mortality_age_standardized_rate,Deaths,Age-standardized,Rate,0,34,0.0007320950083353974,0.01,True,False,stationary_by_adf_only
 mortality_age_standardized_rate,Deaths,Age-standardized,Rate,1,33,0.06493087292964897,0.04472318561413313,False,False,nonstationary
 mortality_age_standardized_rate,Deaths,Age-standardized,Rate,2,32,1.061843804170814e-07,0.1,True,True,stationary_by_both_tests
-mortality_all_age_rate,Deaths,All ages,Rate,0,34,0.6207905230015477,0.01,False,False,nonstationary
-mortality_all_age_rate,Deaths,All ages,Rate,1,33,0.07433887930322125,0.062204423764536915,False,True,stationary_by_kpss_only
-mortality_all_age_rate,Deaths,All ages,Rate,2,32,1.6338471682859504e-06,0.1,True,True,stationary_by_both_tests
-mortality_all_age_number,Deaths,All ages,Number,0,34,0.5698593291259104,0.1,False,True,stationary_by_kpss_only
-mortality_all_age_number,Deaths,All ages,Number,1,33,0.1589672285919861,0.1,False,True,stationary_by_kpss_only
-mortality_all_age_number,Deaths,All ages,Number,2,32,6.096939335423486e-06,0.1,True,True,stationary_by_both_tests
+mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,0,34,0.9347788356908572,0.014531609710496546,False,False,nonstationary
+mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,1,33,0.0518679615607965,0.06215616417724559,False,True,stationary_by_kpss_only
+mortality_to_incidence_age_standardized_ratio,Mortality-to-incidence ratio,Age-standardized,Ratio,2,32,0.04697309310079396,0.1,True,True,stationary_by_both_tests

@@ -123,13 +123,19 @@ H1: the series is not stationary
 ```
 
 Using both tests gives a more cautious assessment than using either test alone.
-For each target series, stationarity is checked at differencing orders:
+For each primary target series, stationarity is checked at differencing orders:
 
 ```text
 d = 0, 1, 2
 ```
 
-The smallest `d` supported by the tests is selected for ARIMA-type models.
+The smallest `d` supported by both tests is preferred. If ADF and KPSS do not
+agree, the smallest `d` supported by at least one test is used as a pragmatic
+fallback for the short annual series. The full-period diagnostic tables are
+reported for the three primary modeling series. During model evaluation and
+final forecasting, ARIMA-type models repeat this selection rule before each fit
+using only the data available to that fit, then pass the selected `d`
+explicitly into the ARIMA fitting function.
 
 Differencing is defined as:
 
@@ -238,7 +244,9 @@ where:
 
 Implementation details:
 
-- `d` is selected from ADF/KPSS evidence on the training series.
+- `d` is selected from ADF/KPSS evidence before each ARIMA fit using the data
+  available to that fit: the training series during holdout evaluation and the
+  full observed series during final forecasting.
 - Low-order `(p,d,q)` candidates are compared using AIC.
 - Forecasts are generated from the best AIC model.
 
@@ -706,14 +714,19 @@ Suggested manuscript wording:
 > data and evaluated on a temporal holdout period from 2018-2023 using MAE,
 > RMSE, and MAPE. Stationarity was assessed using ADF and KPSS tests across
 > differencing orders d = 0, 1, and 2. ARIMA differencing order was selected
-> from these tests before low-order ARIMA candidates were compared by AIC.
+> before each model fit using the same ADF/KPSS rule, and low-order ARIMA
+> candidates were then compared by AIC.
 > Neural models were trained on first-differenced series and forecasts were
 > inverted to the original scale by cumulative summation from the final observed
 > value. The best model by RMSE was refit on the full 1990-2023 series and used
 > to forecast 2024-2030. Forecast uncertainty intervals were estimated by
 > simulating historical trajectories from the GBD lower, point, and upper
 > estimates, refitting the selected model to each trajectory, and summarizing
-> the 2.5th and 97.5th percentiles of the simulated forecasts.
+> the 2.5th and 97.5th percentiles of the simulated forecasts. For the
+> mortality-to-incidence ratio, the uncertainty simulation is applied directly
+> to the ratio series rather than recomputing it from separate incidence and
+> mortality forecasts. The outputs include both a GBD-input-only interval and a
+> wider combined interval that adds centered holdout residual error.
 
 ## Important Limitations
 
@@ -723,6 +736,8 @@ Suggested manuscript wording:
 - Forecast uncertainty intervals propagate GBD input uncertainty through the
   selected best models, but they do not fully capture structural model
   uncertainty, omitted covariates, or unexpected future shocks.
+- The uncertainty tables and figures report two interval types: a GBD-input
+  interval and a combined interval that adds empirical holdout error.
 - National-level univariate models do not include covariates such as HIV
   prevalence, treatment coverage, socioeconomic status, diagnostics, or TB
   program indicators.

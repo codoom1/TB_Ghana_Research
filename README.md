@@ -221,7 +221,9 @@ python scripts/05_forecast_uncertainty.py --n-sim 100 --epochs 50
 This samples historical trajectories from each GBD `lower`, `val`, and `upper`
 interval, refits the selected best model on each simulated trajectory, and
 summarizes the 2.5th and 97.5th percentiles of the resulting 2024-2030
-forecasts.
+forecasts. The script also reports a separate combined interval that adds
+empirical model-error uncertainty sampled from the selected model's 2018-2023
+holdout residuals.
 
 ## Models
 

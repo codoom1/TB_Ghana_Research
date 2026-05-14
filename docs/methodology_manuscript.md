@@ -108,11 +108,13 @@ whereas the KPSS test evaluates the null hypothesis that the series is
 stationary. These tests are therefore complementary: evidence for stationarity
 corresponds to a small ADF p-value and a large KPSS p-value.
 
-To support the formal tests, each primary age-standardized series was also
-plotted with its observed annual values, a trailing 5-year rolling mean, and a
-5-year rolling standard deviation band. This visualization was used to inspect
-whether the central tendency and variability changed over time, which is a
-common visual sign of nonstationarity in short annual series.
+To support the formal tests, each primary modeling series was also plotted with
+its observed annual values, a trailing 5-year rolling mean, and a 5-year rolling
+standard deviation band. This included the incidence age-standardized rate, the
+mortality age-standardized rate, and the derived mortality-to-incidence ratio.
+These visualizations were used to inspect whether the central tendency and
+variability changed over time, which is a common visual sign of nonstationarity
+in short annual series.
 
 For a series `y_t`, first differencing was defined as:
 
@@ -124,12 +126,23 @@ Repeated differencing was written as `Delta^d y_t`. Stationarity tests were
 performed at differencing orders `d = 0, 1, 2`. The smallest differencing order
 supported by both ADF and KPSS was preferred. If the two tests did not agree,
 the smallest differencing order supported by at least one test was retained as a
-pragmatic choice for short annual series. These diagnostics were used directly
-for ARIMA-type models and descriptively for the other models. Specifically,
-the ARIMA model and the ARIMA component of the ARIMA-LSTM hybrid selected the
-differencing order from the ADF/KPSS diagnostics. The standalone neural-network
+pragmatic choice for short annual series. Full-period ADF/KPSS diagnostics were
+saved for the three primary modeling series. For ARIMA-type models,
+the same decision rule was applied before each model fit using only the data
+available to that fit: the 1990-2017 training period during holdout evaluation
+and the full 1990-2023 observed series during final forecasting. The selected
+`d` was then passed explicitly into the ARIMA and ARIMA-LSTM fitting functions.
+This avoided using holdout-period information when selecting the ARIMA
+differencing order during model evaluation. In the full-period diagnostics, the
+recommended differencing orders were `d = 0` for the incidence
+age-standardized rate, `d = 2` for the mortality age-standardized rate, and
+`d = 2` for the mortality-to-incidence ratio. These full-period recommendations
+were reported descriptively; ARIMA-based model evaluation used the
+training-period recommendation to avoid leakage. The standalone neural-network
 models used a fixed first-difference transformation as a preprocessing step to
-reduce trend and place the learning task on annual changes.
+reduce trend and place the learning task on annual changes. The naive, drift,
+and ETS benchmark models were fit on the original outcome scale and did not use
+the ADF/KPSS-selected differencing order directly.
 
 This distinction was made because the differencing order `d` is a formal
 parameter of ARIMA models, but not a native parameter of LSTM or TCN models.
@@ -485,19 +498,25 @@ evidence that the causal TCN was universally superior to classical models.
 
 ## Forecast Uncertainty Intervals
 
-Forecast uncertainty was estimated using simulation to propagate uncertainty in
-the historical GBD estimates through the selected best model for each endpoint.
-For each year and outcome, the GBD point estimate, lower bound, and upper bound
-were used to define a bounded beta-PERT distribution. The lower and upper GBD
-bounds defined the distribution range, and the GBD point estimate was used as
-the modal value. This choice was made because the GBD uncertainty intervals are
-bounded and can be asymmetric around the point estimate.
+Forecast uncertainty was summarized using two separate simulation-based
+intervals. The first interval propagated uncertainty in the historical GBD
+estimates through the selected best model for each endpoint. For each year and
+outcome, the GBD point estimate, lower bound, and upper bound were used to
+define a bounded beta-PERT distribution. The lower and upper GBD bounds defined
+the distribution range, and the GBD point estimate was used as the modal value.
+This choice was made because the GBD uncertainty intervals are bounded and can
+be asymmetric around the point estimate.
+
+For the mortality-to-incidence ratio, the simulations were run directly on the
+ratio series itself rather than recomputing the ratio from separately forecast
+incidence and mortality series. This keeps the uncertainty bands aligned with
+the modeled ratio output used in the forecast tables and figures.
 
 For each simulation replicate, a complete historical trajectory from 1990 to
 2023 was sampled from these year-specific distributions. The selected best
 model for that endpoint was then refit to the simulated trajectory and used to
 forecast 2024 to 2030. This procedure was repeated 100 times for each primary
-endpoint. Forecast uncertainty intervals were summarized using the 2.5th and
+endpoint. The GBD-input uncertainty interval was summarized using the 2.5th and
 97.5th percentiles of the simulated forecast distribution at each forecast
 year:
 
@@ -506,11 +525,30 @@ forecast_lower_t = percentile_2.5({yhat_t^(1), ..., yhat_t^(B)})
 forecast_upper_t = percentile_97.5({yhat_t^(1), ..., yhat_t^(B)})
 ```
 
-where `B` is the number of simulation replicates. These intervals should be
-interpreted as simulation-based forecast uncertainty intervals that propagate
-GBD input uncertainty through the selected model. They are not formal
-frequentist confidence intervals and do not fully capture structural model
-uncertainty, omitted covariates, or future epidemiological shocks.
+where `B` is the number of simulation replicates.
+
+The second interval combined GBD input uncertainty with empirical model-error
+uncertainty from the 2018 to 2023 holdout evaluation. For the selected model
+and endpoint, holdout residuals were computed as observed minus predicted
+values. These residuals were centered to preserve the point forecast as the
+central forecast, then sampled with replacement and added to each simulated
+GBD-input forecast path. The sampled residuals were scaled modestly by forecast
+horizon using a square-root horizon factor. The combined interval was then
+summarized using the 2.5th and 97.5th percentiles of these adjusted simulation
+paths. This combined interval is wider when the selected model had larger
+holdout errors and therefore reflects both GBD estimate uncertainty and
+empirical forecast-error uncertainty.
+
+The forecast tables therefore contain both sets of interval columns: one for
+the GBD-input-only interval and one for the combined interval. The plots use
+matching labels so the blue band corresponds to the GBD-input interval and the
+orange band corresponds to the combined interval.
+
+Both intervals should be interpreted as simulation-based uncertainty intervals,
+not formal frequentist confidence intervals. The combined interval captures
+observed holdout forecast error for the selected model, but it still does not
+fully capture structural model uncertainty, omitted covariates, or unexpected
+future epidemiological shocks.
 
 A more technical description is as follows. The beta-PERT distribution is a parameterization of the beta distribution, defined by a lower bound $a$, an upper bound $b$, and a mode (most likely value) $m$ (where $a < m < b$). The shape parameters for the underlying beta distribution are:
 
@@ -577,8 +615,9 @@ rates and should not be interpreted as a patient-level case fatality estimate.
    - stratified by age, sex (optional as suplementary material)
 
 2. Stationary Assessment
-   - Rolling mean plot
-   - acf and pacf (for second difference). We support this with test
+   - Rolling mean plots for the three primary modeling series
+   - acf and pacf for level and first-differenced primary series, supported by
+     ADF/KPSS tests at d = 0, 1, and 2
 
 3. Trend + Forecast
    - Trend and the forecast plots

@@ -60,12 +60,118 @@ MODELING_SERIES = [
     "mortality_all_age_number",
 ]
 
-# The manuscript's primary endpoints: age-standardized incidence and mortality
-# rates for Both sexes.
-PRIMARY_SERIES = [
+PRIMARY_ANALYSIS_SERIES = [
     "incidence_age_standardized_rate",
     "mortality_age_standardized_rate",
+    "mortality_to_incidence_age_standardized_ratio",
 ]
+
+SERIES_LABELS = {
+    "incidence_age_standardized_rate": "Incidence age-standardized rate",
+    "mortality_to_incidence_age_standardized_ratio": "Mortality-to-incidence ratio",
+    "incidence_all_age_rate": "Incidence all-age rate",
+    "incidence_all_age_number": "Incidence all-age number",
+    "mortality_age_standardized_rate": "Mortality age-standardized rate",
+    "mortality_all_age_rate": "Mortality all-age rate",
+    "mortality_all_age_number": "Mortality all-age number",
+}
+
+PRIMARY_SERIES_COLORS = {
+    "incidence_age_standardized_rate": "#0072B2",
+    "mortality_age_standardized_rate": "#D55E00",
+    "mortality_to_incidence_age_standardized_ratio": "#009E73",
+}
+
+SEX_COLORS = {
+    "Both": "#4D4D4D",
+    "Female": "#CC79A7",
+    "Male": "#0072B2",
+}
+
+AGE_COLORS = {
+    "<5 years": "#0072B2",
+    "5-14 years": "#D55E00",
+    "15-49 years": "#009E73",
+    "50-69 years": "#CC79A7",
+    "70+ years": "#E69F00",
+    "All ages": "#332288",
+    "Age-standardized": "#4D4D4D",
+}
+
+EDA_FIGSIZE_1X3 = (25, 12)
+EDA_LINEWIDTH = 6.0
+EDA_MARKERSIZE = 10.0
+EDA_LEGEND_PROPS = {"weight": "bold", "size": 35}
+
+
+def series_y_label(series: str) -> str:
+    if "ratio" in series:
+        return "Mortality / incidence"
+    if "rate" in series:
+        return "Rate per 100,000"
+    return "Number"
+
+
+def set_eda_theme() -> None:
+    sns.set_theme(
+        style="whitegrid",
+        context="talk",
+        rc={
+            "axes.titlesize": 30,
+            "axes.titleweight": "bold",
+            "axes.labelsize": 26,
+            "axes.labelweight": "bold",
+            "xtick.labelsize": 22,
+            "ytick.labelsize": 22,
+            "legend.fontsize": 24,
+        },
+    )
+
+
+def style_primary_axis(ax) -> None:
+    ax.grid(True, which="major", color="#8F8F8F", linewidth=1.8, alpha=0.9)
+    ax.margins(x=0.02)
+    ax.tick_params(axis="both", width=1.8, length=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_linewidth(1.8)
+    ax.spines["bottom"].set_linewidth(1.8)
+
+
+def style_facet_grid(g) -> None:
+    for ax in g.axes.flat:
+        style_primary_axis(ax)
+        ax.title.set_fontsize(34)
+        ax.title.set_fontweight("bold")
+        ax.xaxis.label.set_fontsize(30)
+        ax.xaxis.label.set_fontweight("bold")
+        ax.yaxis.label.set_fontsize(30)
+        ax.yaxis.label.set_fontweight("bold")
+        ax.tick_params(labelsize=26)
+
+
+def bold_figure_legend(fig) -> None:
+    for legend in fig.legends:
+        legend.get_title().set_fontweight("bold")
+        legend.get_title().set_fontsize(EDA_LEGEND_PROPS["size"])
+        for text in legend.get_texts():
+            text.set_fontweight("bold")
+            text.set_fontsize(EDA_LEGEND_PROPS["size"])
+
+
+def plot_primary_line(ax, years, values, series: str, label: str = "Observed") -> None:
+    ax.plot(
+        years,
+        values,
+        color=PRIMARY_SERIES_COLORS[series],
+        marker="o",
+        markersize=EDA_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=1.2,
+        linewidth=EDA_LINEWIDTH,
+        label=label,
+        zorder=3,
+    )
 
 # Mapping from processed column names back to GBD measure, age, and metric
 # labels. This makes stationarity output tables easier to interpret.
@@ -189,207 +295,142 @@ def choose_recommended_d(test_rows: list[dict[str, float | int | bool | str]]) -
 
 
 def plot_modeling_series(wide: pd.DataFrame) -> None:
-    # Human-readable labels for figure titles.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence age-standardized rate",
-        "incidence_all_age_rate": "Incidence all-age rate",
-        "incidence_all_age_number": "Incidence all-age number",
-        "mortality_age_standardized_rate": "Mortality age-standardized rate",
-        "mortality_all_age_rate": "Mortality all-age rate",
-        "mortality_all_age_number": "Mortality all-age number",
-    }
-    # Convert the wide table to long format so seaborn can facet by series.
-    long = wide.melt(id_vars="year", value_vars=MODELING_SERIES, var_name="series", value_name="value")
-    # Attach readable labels to each processed series name.
-    long["label"] = long["series"].map(labels)
+    set_eda_theme()
+    fig, axes = plt.subplots(1, 3, figsize=EDA_FIGSIZE_1X3, sharex=True)
 
-    # Plot all prepared modeling series in a 2-column faceted layout. sharey=False
-    # is important because rates and counts are on different scales.
-    g = sns.relplot(
-        data=long,
-        x="year",
-        y="value",
-        col="label",
-        col_wrap=2,
-        kind="line",
-        marker="o",
-        facet_kws={"sharey": False},
-        height=4,
-        aspect=1.5,
-    )
-    # Set common axis labels for all facets.
-    g.set_axis_labels("Year", "Value")
-    # Use each series label as the facet title.
-    g.set_titles("{col_name}")
-    # Add one title for the whole figure.
-    g.figure.suptitle("Ghana TB modeling series, 1990-2023", y=1.02)
-    # Tighten layout and save at print-friendly resolution.
-    g.figure.tight_layout()
-    g.figure.savefig(EDA_FIGURE_DIR / "modeling_series_over_time.png", dpi=300, bbox_inches="tight")
-    # Close the figure to avoid memory buildup when the script creates many
-    # plots.
-    plt.close(g.figure)
+    for ax, series in zip(axes, PRIMARY_ANALYSIS_SERIES):
+        plot_primary_line(ax, wide["year"], wide[series].astype(float), series)
+        ax.set_title(SERIES_LABELS[series])
+        ax.set_xlabel("Year")
+        ax.set_ylabel(series_y_label(series))
+        style_primary_axis(ax)
+
+    fig.suptitle("Trends in Primary Tuberculosis Endpoints in Ghana, 1990-2023", fontsize=38, fontweight="bold", y=0.99)
+    fig.tight_layout()
+    fig.savefig(EDA_FIGURE_DIR / "primary_modeling_series_over_time.png", dpi=300, bbox_inches="tight")
+    plt.close(fig)
 
 
 def plot_primary_age_standardized_series(wide: pd.DataFrame) -> None:
-    # Plot the two primary rate endpoints plus the mortality-to-incidence ratio.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence age-standardized rate",
-        "mortality_age_standardized_rate": "Mortality age-standardized rate",
-        "mortality_to_incidence_age_standardized_ratio": "Mortality-to-incidence ratio",
-    }
+    set_eda_theme()
+    # Plot the three primary endpoints: incidence, mortality, and their ratio.
     # A side-by-side layout makes the three primary endpoints easy to compare.
-    fig, axes = plt.subplots(1, 3, figsize=(20, 8), sharex=True)
-    series_list = [
-        "incidence_age_standardized_rate",
-        "mortality_age_standardized_rate",
-        "mortality_to_incidence_age_standardized_ratio",
-    ]
+    fig, axes = plt.subplots(1, 3, figsize=EDA_FIGSIZE_1X3, sharex=True)
     # Draw one panel for each endpoint.
-    for ax, series in zip(axes, series_list):
-        if series == "mortality_to_incidence_age_standardized_ratio":
-            values = wide["mortality_age_standardized_rate"].astype(float) / wide["incidence_age_standardized_rate"].astype(float)
-        else:
-            values = wide[series]
-        ax.plot(wide["year"], values, marker="o", linewidth=2.4)
-        ax.set_title(labels[series])
+    for ax, series in zip(axes, PRIMARY_ANALYSIS_SERIES):
+        values = wide[series].astype(float)
+        plot_primary_line(ax, wide["year"], values, series)
+        ax.set_title(SERIES_LABELS[series])
         ax.set_xlabel("Year")
-        ax.set_ylabel("Rate per 100,000" if "ratio" not in series else "Mortality rate / incidence rate")
-        ax.margins(x=0.02)
-        # Keep only the left and bottom axes so each panel has an L-shaped frame.
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-
-        # Make ticks appear only on the visible axes.
-        ax.tick_params(top=False, right=False)
-
-        # Optional: slightly thicken the visible L-shaped axes.
-        ax.spines["left"].set_linewidth(1.2)
-        ax.spines["bottom"].set_linewidth(1.2)
-    fig.suptitle("Trend of Tuberculosis incidence and mortality rates in Ghana (1990-2023)", y=1.02)
+        ax.set_ylabel(series_y_label(series))
+        style_primary_axis(ax)
+    fig.suptitle("Trend of primary tuberculosis endpoints in Ghana (1990-2023)", fontsize=38, fontweight="bold", y=0.99)
     fig.tight_layout()
     fig.savefig(EDA_FIGURE_DIR / "Trend_of_TB_rates.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
 def plot_primary_rolling_statistics(wide: pd.DataFrame, window: int = 5) -> None:
+    set_eda_theme()
     # A rolling mean and rolling standard deviation make nonstationary level
     # shifts easier to see in a short annual series.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence age-standardized rate",
-        "mortality_age_standardized_rate": "Mortality age-standardized rate",
-    }
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharex=True)
+    fig, axes = plt.subplots(1, 3, figsize=EDA_FIGSIZE_1X3, sharex=True)
 
-    for ax, series in zip(axes, PRIMARY_SERIES):
+    for ax, series in zip(axes, PRIMARY_ANALYSIS_SERIES):
         values = wide[series].astype(float)
         rolling_mean = values.rolling(window=window, min_periods=window).mean()
         rolling_std = values.rolling(window=window, min_periods=window).std()
 
-        ax.plot(wide["year"], values, marker="o", linewidth=2.2, color="black", label="Observed")
+        ax.plot(
+            wide["year"],
+            values,
+            marker="o",
+            markersize=EDA_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=1.2,
+            linewidth=EDA_LINEWIDTH,
+            color="#555555",
+            label="Observed",
+            zorder=3,
+        )
         ax.plot(
             wide["year"],
             rolling_mean,
-            linewidth=2.4,
-            color="tab:blue",
+            linewidth=EDA_LINEWIDTH,
+            color=PRIMARY_SERIES_COLORS[series],
             label=f"Trailing {window}-year rolling mean",
+            zorder=4,
         )
         ax.fill_between(
             wide["year"],
             rolling_mean - rolling_std,
             rolling_mean + rolling_std,
-            color="tab:blue",
-            alpha=0.18,
+            color=PRIMARY_SERIES_COLORS[series],
+            alpha=0.20,
             label=f"Trailing {window}-year mean ± 1 SD",
+            zorder=2,
         )
-        ax.set_title(labels[series])
+        ax.set_title(SERIES_LABELS[series])
         ax.set_xlabel("Year")
-        ax.set_ylabel("Rate per 100,000")
-        ax.margins(x=0.02)
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.tick_params(top=False, right=False)
-        ax.spines["left"].set_linewidth(1.2)
-        ax.spines["bottom"].set_linewidth(1.2)
+        ax.set_ylabel(series_y_label(series))
+        style_primary_axis(ax)
 
     fig.suptitle(
-        f"Observed TB rates with {window}-year rolling mean and variability band",
-        y=1.02,
+        f"Observed primary TB series with {window}-year rolling mean and variability band",
+        fontsize=38,
+        fontweight="bold",
+        y=0.99,
     )
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper right", frameon=False)
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig(EDA_FIGURE_DIR / "primary_age_standardized_rolling_statistics.png", dpi=300, bbox_inches="tight")
+    fig.legend(
+        handles,
+        labels,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.015),
+        ncol=3,
+        frameon=False,
+        prop=EDA_LEGEND_PROPS,
+        columnspacing=1.6,
+        handlelength=3.0,
+        handletextpad=0.7,
+    )
+    fig.tight_layout(rect=(0, 0.12, 1, 0.91))
+    fig.savefig(EDA_FIGURE_DIR / "primary_series_rolling_statistics.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 def plot_primary_age_standardized_bar_comparison(wide: pd.DataFrame) -> None:
-    # Keep the bar comparison limited to the two primary rate endpoints so both bars
-    # use the same "rate per 100,000" unit.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence",
-        "mortality_age_standardized_rate": "Mortality",
-    }
+    set_eda_theme()
+    # Bar charts are shown separately because the ratio is on a different scale
+    # from the rates.
+    fig, axes = plt.subplots(1, 3, figsize=EDA_FIGSIZE_1X3, sharex=True)
 
-    # Convert the wide table to long format so seaborn can draw grouped bars
-    # with one bar for incidence and one bar for mortality within each year.
-    long = wide.melt(
-        id_vars="year",
-        value_vars=PRIMARY_SERIES,
-        var_name="series",
-        value_name="rate",
-    )
+    for ax, series in zip(axes, PRIMARY_ANALYSIS_SERIES):
+        sns.barplot(
+            data=wide,
+            x="year",
+            y=series,
+            color=PRIMARY_SERIES_COLORS[series],
+            edgecolor="white",
+            linewidth=1.0,
+            ax=ax,
+        )
+        ax.set_title(SERIES_LABELS[series])
+        ax.set_xlabel("Year")
+        ax.set_ylabel(series_y_label(series))
+        for index, label in enumerate(ax.get_xticklabels()):
+            label.set_visible(index % 4 == 0)
+            label.set_rotation(45)
+            label.set_horizontalalignment("right")
+        style_primary_axis(ax)
 
-    # Replace machine-readable column names with short legend labels.
-    long["endpoint"] = long["series"].map(labels)
-
-    # A wide figure is used because the annual data include 34 years, and each
-    # year has two bars.
-    fig, ax = plt.subplots(figsize=(20, 7))
-
-    # Draw grouped bars: x-axis is year, bar color identifies incidence versus
-    # mortality.
-    sns.barplot(
-        data=long,
-        x="year",
-        y="rate",
-        hue="endpoint",
-        palette={"Incidence": "tab:blue", "Mortality": "tab:red"},
-        ax=ax,
-    )
-
-    # Use a concise manuscript-style title and axis labels.
-    ax.set_title("Age-standardized tuberculosis incidence and mortality rates in Ghana")
-    ax.set_xlabel("Year")
-    ax.set_ylabel("Rate per 100,000")
-
-    # Show every other year label so the x-axis remains readable.
-    for index, label in enumerate(ax.get_xticklabels()):
-        label.set_visible(index % 2 == 0)
-        label.set_rotation(45)
-        label.set_horizontalalignment("right")
-
-    # Keep only the left and bottom axes so the bar chart also has an L-shaped
-    # frame.
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_linewidth(1.2)
-    ax.spines["bottom"].set_linewidth(1.2)
-    ax.tick_params(top=False, right=False)
-
-    # Place the legend in the upper-right corner of the plot.
-    sns.move_legend(ax, "upper right", frameon=False, title="Endpoint")
-
-    # Reserve right-side space for the external legend and save the figure.
-    fig.tight_layout(rect=(0, 0, 1, 1))
-    fig.savefig(
-        EDA_FIGURE_DIR / "primary_age_standardized_incidence_mortality_bar_comparison.png",
-        dpi=300,
-        bbox_inches="tight",
-    )
+    fig.suptitle("Primary tuberculosis endpoints in Ghana, 1990-2023", fontsize=38, fontweight="bold", y=0.99)
+    fig.tight_layout()
+    fig.savefig(EDA_FIGURE_DIR / "primary_series_bar_comparison.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
 def plot_mortality_to_incidence_ratio(wide: pd.DataFrame) -> None:
+    set_eda_theme()
     # The mortality-to-incidence ratio compares death burden against incident
     # disease burden using the two primary age-standardized rates.
     ratio = (
@@ -398,7 +439,7 @@ def plot_mortality_to_incidence_ratio(wide: pd.DataFrame) -> None:
     )
 
     # Create a compact one-panel figure for the ratio trend.
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(18, 12))
 
     # Plot the ratio as a line so the direction of relative mortality burden is
     # easy to follow over time.
@@ -406,9 +447,13 @@ def plot_mortality_to_incidence_ratio(wide: pd.DataFrame) -> None:
         wide["year"],
         ratio,
         marker="o",
-        linewidth=2.4,
-        color="tab:purple",
+        markersize=EDA_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=1.2,
+        linewidth=EDA_LINEWIDTH,
+        color=PRIMARY_SERIES_COLORS["mortality_to_incidence_age_standardized_ratio"],
         label="Observed ratio",
+        zorder=3,
     )
 
     # Add a dashed fitted trend line to summarize the long-run direction.
@@ -417,27 +462,36 @@ def plot_mortality_to_incidence_ratio(wide: pd.DataFrame) -> None:
         y=ratio,
         scatter=False,
         ci=None,
-        color="black",
-        line_kws={"linestyle": "--", "linewidth": 1.8, "alpha": 0.75},
+        color="#555555",
+        line_kws={"linestyle": "--", "linewidth": EDA_LINEWIDTH, "alpha": 0.85},
         ax=ax,
     )
 
-    observed_handle = Line2D([], [], color="tab:purple", marker="o", linewidth=2.4, label="Observed ratio")
-    trend_handle = Line2D([], [], color="black", linestyle="--", linewidth=1.8, alpha=0.75, label="Trend")
+    observed_handle = Line2D(
+        [],
+        [],
+        color=PRIMARY_SERIES_COLORS["mortality_to_incidence_age_standardized_ratio"],
+        marker="o",
+        markeredgecolor="white",
+        markeredgewidth=1.2,
+        linewidth=EDA_LINEWIDTH,
+        label="Observed ratio",
+    )
+    trend_handle = Line2D([], [], color="#555555", linestyle="--", linewidth=EDA_LINEWIDTH, alpha=0.85, label="Trend")
 
     # Use clear labels that state this is a ratio, not a rate per 100,000.
     ax.set_title("Mortality-to-incidence ratio for age-standardized TB rates in Ghana")
     ax.set_xlabel("Year")
     ax.set_ylabel("Mortality rate / incidence rate")
-    ax.margins(x=0.02)
-
-    # Keep only the left and bottom axes for an L-shaped frame.
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_linewidth(1.2)
-    ax.spines["bottom"].set_linewidth(1.2)
-    ax.tick_params(top=False, right=False)
-    ax.legend(handles=[observed_handle, trend_handle], loc="upper right", frameon=False)
+    style_primary_axis(ax)
+    ax.legend(
+        handles=[observed_handle, trend_handle],
+        loc="upper right",
+        frameon=False,
+        prop=EDA_LEGEND_PROPS,
+        handlelength=3.0,
+        handletextpad=0.7,
+    )
 
     # Save the ratio trend as a manuscript-friendly PNG.
     fig.tight_layout()
@@ -486,36 +540,73 @@ def plot_sex_stratified(raw: pd.DataFrame) -> None:
 
 
 def plot_primary_age_standardized_by_sex(raw: pd.DataFrame) -> None:
-    # Focus on the primary age-standardized rate definition but show sex strata.
+    set_eda_theme()
+    # Focus on the primary age-standardized endpoints but show sex strata.
     subset = raw[
         raw["measure_name"].isin(["Incidence", "Deaths"])
         & raw["metric_name"].eq("Rate")
         & raw["age_name"].eq("Age-standardized")
     ].copy()
 
-    # One panel for incidence and one panel for deaths.
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharex=True)
-    # Save legend handles from seaborn so one shared legend can be placed
-    # outside the axes.
+    rate_wide = (
+        subset.pivot_table(
+            index=["year", "sex_name"],
+            columns="measure_name",
+            values="val",
+            aggfunc="first",
+        )
+        .reset_index()
+        .rename(columns={"Deaths": "mortality", "Incidence": "incidence"})
+    )
+    rate_wide["ratio"] = rate_wide["mortality"] / rate_wide["incidence"]
+
+    fig, axes = plt.subplots(1, 3, figsize=EDA_FIGSIZE_1X3, sharex=True)
+    panels = [
+        ("incidence", "Incidence age-standardized rate", "Rate per 100,000"),
+        ("mortality", "Mortality age-standardized rate", "Rate per 100,000"),
+        ("ratio", "Mortality-to-incidence ratio", "Mortality / incidence"),
+    ]
     handles = labels = None
-    for ax, measure in zip(axes, ["Incidence", "Deaths"]):
-        # Subset to one measure for this panel.
-        panel = subset[subset["measure_name"] == measure]
-        # Draw sex-specific lines.
-        sns.lineplot(data=panel, x="year", y="val", hue="sex_name", marker="o", linewidth=2.2, ax=ax)
-        # Grab handles before removing the per-axis legend.
-        handles, labels = ax.get_legend_handles_labels()
-        if ax.get_legend() is not None:
-            ax.get_legend().remove()
-        ax.set_title(f"{measure} age-standardized rate")
+    for ax, (column, title, ylabel) in zip(axes, panels):
+        for sex_name, group in rate_wide.groupby("sex_name"):
+            ax.plot(
+                group["year"],
+                group[column],
+                color=SEX_COLORS.get(sex_name, "#555555"),
+                marker="o",
+                markersize=EDA_MARKERSIZE,
+                markeredgecolor="white",
+                markeredgewidth=1.2,
+                linewidth=EDA_LINEWIDTH,
+                label=sex_name,
+                zorder=3,
+            )
+        ax.set_title(title)
         ax.set_xlabel("Year")
-        ax.set_ylabel("Rate per 100,000")
-        ax.margins(x=0.02)
+        ax.set_ylabel(ylabel)
+        style_primary_axis(ax)
+        handles, labels = ax.get_legend_handles_labels()
     if handles and labels:
-        # Add one shared legend in the upper-right corner of the figure.
-        fig.legend(handles, labels, title="Sex", loc="upper right", frameon=False)
-    fig.suptitle("Ghana TB age-standardize rates by sex, 1990-2023", y=1.02)
-    fig.tight_layout(rect=(0, 0, 1, 0.95))
+        fig.legend(
+            handles,
+            labels,
+            title="Sex",
+            loc="lower center",
+            bbox_to_anchor=(0.5, 0.015),
+            ncol=3,
+            frameon=False,
+            prop=EDA_LEGEND_PROPS,
+            columnspacing=1.6,
+            handlelength=3.0,
+            handletextpad=0.7,
+        )
+    fig.suptitle(
+        "Ghana TB primary age-standardized endpoints by sex, 1990-2023",
+        fontsize=38,
+        fontweight="bold",
+        y=0.99,
+    )
+    fig.tight_layout(rect=(0, 0.12, 1, 0.91))
     fig.savefig(EDA_FIGURE_DIR / "primary_age_standardized_rates_by_sex.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
@@ -523,18 +614,14 @@ def plot_primary_age_standardized_by_sex(raw: pd.DataFrame) -> None:
 def plot_primary_acf_pacf(wide: pd.DataFrame) -> None:
     # ACF/PACF diagnostics help assess how much each year depends on prior
     # years and can inform ARIMA p/q choices.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence age-standardized rate",
-        "mortality_age_standardized_rate": "Mortality age-standardized rate",
-    }
     # Limit lags to keep plots readable and statistically sensible for only
     # 34 annual observations.
     max_lags = 12
 
-    for series in PRIMARY_SERIES:
-        # Level series: the original age-standardized rate.
+    for series in PRIMARY_ANALYSIS_SERIES:
+        # Level series: the original modeling endpoint.
         values = wide[series].to_numpy(dtype=float)
-        # First difference: annual change in the rate.
+        # First difference: annual change in the endpoint.
         differenced = np.diff(values)
         # statsmodels PACF requires lag count to be less than half the sample
         # size, so the lag count is bounded dynamically.
@@ -561,7 +648,7 @@ def plot_primary_acf_pacf(wide: pd.DataFrame) -> None:
             ax.set_xlabel("Lag")
             ax.margins(x=0.02)
 
-        fig.suptitle(f"{labels[series]} autocorrelation diagnostics", y=1.02)
+        fig.suptitle(f"{SERIES_LABELS[series]} autocorrelation diagnostics", y=1.02)
         fig.tight_layout()
         fig.savefig(EDA_FIGURE_DIR / f"acf_pacf_{series}.png", dpi=300, bbox_inches="tight")
         plt.close(fig)
@@ -570,16 +657,12 @@ def plot_primary_acf_pacf(wide: pd.DataFrame) -> None:
 def plot_primary_decomposition(wide: pd.DataFrame) -> None:
     # Annual data do not have monthly/quarterly seasonality. This decomposition
     # is therefore labeled as an exploratory 5-year cycle, not true seasonality.
-    labels = {
-        "incidence_age_standardized_rate": "Incidence age-standardized rate",
-        "mortality_age_standardized_rate": "Mortality age-standardized rate",
-    }
     # Collect decomposition components for export to CSV.
     decomposition_rows = []
     # Five years gives a compact visual cycle for annual public-health data.
     period = 5
 
-    for series in PRIMARY_SERIES:
+    for series in PRIMARY_ANALYSIS_SERIES:
         # Create a year-indexed Series for statsmodels decomposition.
         ts = pd.Series(
             wide[series].to_numpy(dtype=float),
@@ -603,7 +686,7 @@ def plot_primary_decomposition(wide: pd.DataFrame) -> None:
         )
         decomposition_rows.append(components)
 
-        # Four stacked panels show observed rate, estimated trend, cyclical
+        # Four stacked panels show observed value, estimated trend, cyclical
         # component, and residual/remainder.
         fig, axes = plt.subplots(4, 1, figsize=(12, 11), sharex=True)
         axes[0].plot(ts.index, decomposition.observed, marker="o", linewidth=2.0)
@@ -619,22 +702,23 @@ def plot_primary_decomposition(wide: pd.DataFrame) -> None:
 
         # Apply shared formatting to all decomposition panels.
         for ax in axes:
-            ax.set_ylabel("Rate")
+            ax.set_ylabel(series_y_label(series))
             ax.margins(x=0.02)
         axes[-1].set_xlabel("Year")
-        fig.suptitle(f"{labels[series]} decomposition (period = {period} years)", y=1.01)
+        fig.suptitle(f"{SERIES_LABELS[series]} decomposition (period = {period} years)", y=1.01)
         fig.tight_layout()
         fig.savefig(EDA_FIGURE_DIR / f"decomposition_{series}_period5.png", dpi=300, bbox_inches="tight")
         plt.close(fig)
 
     # Export decomposition values so they can be inspected or reported in tables.
     pd.concat(decomposition_rows, ignore_index=True).to_csv(
-        TABLE_DIR / "primary_age_standardized_decomposition_period5.csv",
+        TABLE_DIR / "primary_series_decomposition_period5.csv",
         index=False,
     )
 
 
 def plot_condensed_age_groups(raw: pd.DataFrame) -> None:
+    set_eda_theme()
     # Use Both sexes and the rate metric to compare age patterns without
     # doubling lines by sex.
     subset = raw[
@@ -645,32 +729,67 @@ def plot_condensed_age_groups(raw: pd.DataFrame) -> None:
     ].copy()
     # Preserve a logical age order in the legend and plot.
     subset["age_name"] = pd.Categorical(subset["age_name"], categories=CONDENSED_AGES, ordered=True)
+    wide = (
+        subset.pivot_table(
+            index=["year", "age_name"],
+            columns="measure_name",
+            values="val",
+            aggfunc="first",
+            observed=False,
+        )
+        .reset_index()
+        .rename(columns={"Deaths": "Mortality", "Incidence": "Incidence"})
+    )
+    wide["Mortality-to-incidence ratio"] = wide["Mortality"] / wide["Incidence"]
+    endpoint_order = ["Incidence", "Mortality", "Mortality-to-incidence ratio"]
+    long = wide.melt(
+        id_vars=["year", "age_name"],
+        value_vars=endpoint_order,
+        var_name="endpoint",
+        value_name="value",
+    )
+    long["endpoint"] = pd.Categorical(long["endpoint"], categories=endpoint_order, ordered=True)
 
-    # Facet by measure so incidence and mortality have separate y scales.
+    # Facet by endpoint so incidence, mortality, and the ratio have separate y scales.
     g = sns.relplot(
-        data=subset,
+        data=long,
         x="year",
-        y="val",
+        y="value",
         hue="age_name",
-        col="measure_name",
+        hue_order=CONDENSED_AGES,
+        palette=AGE_COLORS,
+        col="endpoint",
+        col_order=endpoint_order,
         kind="line",
         marker="o",
+        linewidth=EDA_LINEWIDTH,
+        markersize=EDA_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=1.2,
         facet_kws={"sharey": False},
-        height=5,
-        aspect=1.35,
+        height=12,
+        aspect=1.25,
     )
-    g.set_axis_labels("Year", "Rate per 100,000")
+    g.set_axis_labels("Year", "Value")
     g.set_titles("{col_name}")
+    style_facet_grid(g)
     # Keep the age-group legend outside the plot area.
     sns.move_legend(g, "center left", bbox_to_anchor=(1.01, 0.5), frameon=False, title="Age group")
-    g.figure.suptitle("Ghana TB rates by age group, Both sexes, 1990-2023", y=1.04)
+    bold_figure_legend(g.figure)
+    g.figure.suptitle(
+        "Ghana TB endpoints by age group, Both sexes, 1990-2023",
+        fontsize=52,
+        fontweight="bold",
+        y=1.02,
+    )
     # Leave space for the legend and title.
-    g.figure.subplots_adjust(right=0.78, top=0.86)
+    g.figure.subplots_adjust(right=0.72, top=0.88)
     g.figure.savefig(EDA_FIGURE_DIR / "condensed_age_group_rates_over_time.png", dpi=300, bbox_inches="tight")
     plt.close(g.figure)
 
 
 def plot_sex_by_condensed_age(raw: pd.DataFrame) -> None:
+    set_eda_theme()
     # Compare male and female trends within condensed age bands. "Both" is
     # excluded here because the focus is sex differences.
     subset = raw[
@@ -681,27 +800,64 @@ def plot_sex_by_condensed_age(raw: pd.DataFrame) -> None:
     ].copy()
     # Exclude All ages and Age-standardized from this age-band panel and retain
     # the intended order.
-    subset["age_name"] = pd.Categorical(subset["age_name"], categories=CONDENSED_AGES[:-2], ordered=True)
+    age_order = CONDENSED_AGES[:-2]
+    subset["age_name"] = pd.Categorical(subset["age_name"], categories=age_order, ordered=True)
+    wide = (
+        subset.pivot_table(
+            index=["year", "sex_name", "age_name"],
+            columns="measure_name",
+            values="val",
+            aggfunc="first",
+            observed=False,
+        )
+        .reset_index()
+        .rename(columns={"Deaths": "Mortality", "Incidence": "Incidence"})
+    )
+    wide["Mortality-to-incidence ratio"] = wide["Mortality"] / wide["Incidence"]
+    endpoint_order = ["Incidence", "Mortality", "Mortality-to-incidence ratio"]
+    long = wide.melt(
+        id_vars=["year", "sex_name", "age_name"],
+        value_vars=endpoint_order,
+        var_name="endpoint",
+        value_name="value",
+    )
+    long["endpoint"] = pd.Categorical(long["endpoint"], categories=endpoint_order, ordered=True)
 
-    # Grid layout: rows are measure types, columns are condensed age groups.
+    # Grid layout: rows are endpoint types, columns are condensed age groups.
     g = sns.relplot(
-        data=subset,
+        data=long,
         x="year",
-        y="val",
+        y="value",
         hue="sex_name",
-        row="measure_name",
+        hue_order=["Female", "Male"],
+        palette=SEX_COLORS,
+        row="endpoint",
+        row_order=endpoint_order,
         col="age_name",
+        col_order=age_order,
         kind="line",
+        marker="o",
+        linewidth=EDA_LINEWIDTH,
+        markersize=EDA_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=1.2,
         facet_kws={"sharey": False},
-        height=3,
+        height=8.0,
         aspect=1.25,
     )
-    g.set_axis_labels("Year", "Rate per 100,000")
+    g.set_axis_labels("Year", "Value")
     g.set_titles("{row_name} | {col_name}")
+    style_facet_grid(g)
     # Place the sex legend in the upper-right corner of the figure.
-    sns.move_legend(g, "upper right", frameon=False, title="Sex")
-    g.figure.suptitle("Ghana TB rates by sex and age group, 1990-2023", y=1.02)
-    g.figure.tight_layout(rect=(0, 0, 1, 0.92))
+    sns.move_legend(g, "upper center", bbox_to_anchor=(0.5, 0.99), ncol=2, frameon=False, title="Sex")
+    bold_figure_legend(g.figure)
+    g.figure.suptitle(
+        "Ghana TB endpoints by sex and age group, 1990-2023",
+        fontsize=52,
+        fontweight="bold",
+        y=1.03,
+    )
+    g.figure.tight_layout(rect=(0, 0, 1, 0.91))
     g.figure.savefig(EDA_FIGURE_DIR / "sex_by_condensed_age_rates_over_time.png", dpi=300, bbox_inches="tight")
     plt.close(g.figure)
 
@@ -711,7 +867,7 @@ def run_stationarity(wide: pd.DataFrame) -> None:
     diagnostics = []
     # These rows store only the recommended differencing order per series.
     recommendations = []
-    for series in MODELING_SERIES:
+    for series in PRIMARY_ANALYSIS_SERIES:
         # Pull one univariate series from the wide modeling table.
         values = wide[series].to_numpy(dtype=float)
         # Run ADF/KPSS after d=0, d=1, and d=2 transformations.
@@ -764,23 +920,23 @@ def main() -> None:
     # Wide processed data are needed for modeling-series and stationarity plots.
     wide = pd.read_csv(WIDE_PATH)
 
-    # Plot all prepared modeling series.
-    #plot_modeling_series(wide)
-    # Plot the two primary age-standardized rate endpoints.
+    # Plot the three primary modeling series.
+    plot_modeling_series(wide)
+    # Plot the three primary age-standardized endpoints.
     plot_primary_age_standardized_series(wide)
-    # Show the rolling mean and variability band to illustrate nonstationarity.
+    # Show rolling mean and variability bands for the three primary series.
     plot_primary_rolling_statistics(wide)
-    # Plot a bar comparison of the two primary age-standardized rates to visually compare their levels and trends.
+    # Plot bar comparisons of the three primary endpoints to visually compare their levels and trends.
     plot_primary_age_standardized_bar_comparison(wide)
     # Plot the ratio of mortality to incidence rates. This ratio provides insight into the relationship between disease burden and death burden over time.
     plot_mortality_to_incidence_ratio(wide)
     # Plot sex-stratified all-age and age-standardized rates.
     plot_sex_stratified(raw)
-    # Plot primary age-standardized rates by sex.
+    # Plot primary age-standardized endpoints by sex.
     plot_primary_age_standardized_by_sex(raw)
-    # Plot ACF/PACF diagnostics for primary endpoints.
+    # Plot ACF/PACF diagnostics for the three primary series.
     plot_primary_acf_pacf(wide)
-    # Plot exploratory trend/cycle decomposition for primary endpoints.
+    # Plot exploratory trend/cycle decomposition for the three primary series.
     plot_primary_decomposition(wide)
     # Plot condensed age-group trends for Both sexes.
     plot_condensed_age_groups(raw)

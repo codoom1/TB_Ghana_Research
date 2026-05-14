@@ -50,6 +50,17 @@ SERIES_LABELS = {
 
 CLASSICAL_MODELS = ["Naive", "Drift", "ARIMA", "ETS"]
 DEEP_LEARNING_MODELS = ["LSTM", "Causal_TCN", "ARIMA_LSTM", "Multistep_LSTM"]
+MODEL_COLORS = {
+    # High-contrast print-friendly model colors.
+    "Naive": "#0072B2",
+    "Drift": "#D55E00",
+    "ARIMA": "#009E73",
+    "ETS": "#CC79A7",
+    "LSTM": "#E69F00",
+    "Causal_TCN": "#56B4E9",
+    "ARIMA_LSTM": "#B79F00",
+    "Multistep_LSTM": "#332288",
+}
 
 
 def series_y_label(series: str) -> str:
@@ -62,56 +73,123 @@ def series_y_label(series: str) -> str:
 
 def model_registry(epochs: int):
     return {
-        "Naive": lambda train, steps: naive_forecast(train, steps),
-        "Drift": lambda train, steps: drift_forecast(train, steps),
-        "ARIMA": lambda train, steps: model_arima.forecast(train, steps),
-        "ETS": lambda train, steps: model_ets.forecast(train, steps),
-        "LSTM": lambda train, steps: model_lstm.forecast(train, steps, epochs=epochs),
-        "Causal_TCN": lambda train, steps: model_causal_tcn.forecast(train, steps, epochs=epochs),
-        "ARIMA_LSTM": lambda train, steps: model_arima_lstm.forecast(train, steps, epochs=epochs),
-        "Multistep_LSTM": lambda train, steps: model_multistep_lstm.forecast(train, steps, epochs=epochs),
+        "Naive": lambda train, steps, **_: naive_forecast(train, steps),
+        "Drift": lambda train, steps, **_: drift_forecast(train, steps),
+        "ARIMA": lambda train, steps, **kwargs: model_arima.forecast(train, steps, **kwargs),
+        "ETS": lambda train, steps, **_: model_ets.forecast(train, steps),
+        "LSTM": lambda train, steps, **_: model_lstm.forecast(train, steps, epochs=epochs),
+        "Causal_TCN": lambda train, steps, **_: model_causal_tcn.forecast(train, steps, epochs=epochs),
+        "ARIMA_LSTM": lambda train, steps, **kwargs: model_arima_lstm.forecast(train, steps, epochs=epochs, **kwargs),
+        "Multistep_LSTM": lambda train, steps, **_: model_multistep_lstm.forecast(train, steps, epochs=epochs),
     }
 
 
 def plot_model_test_predictions(data: pd.DataFrame, predictions: pd.DataFrame) -> None:
     """Plot observed test-set predictions for every model in one comparison figure."""
-    sns.set_theme(style="whitegrid", context="talk")
-    plot_series = [series for series in SERIES if series in set(predictions["series"])]
-    ncols = 2 if len(plot_series) > 1 else 1
+    sns.set_theme(
+        style="whitegrid",
+        context="talk",
+        rc={
+            "axes.titlesize": 40,
+            "axes.titleweight": "bold",
+            "axes.labelsize": 40,
+            "axes.labelweight": "bold",
+            "xtick.labelsize": 40,
+            "ytick.labelsize": 40,
+            "legend.fontsize": 40,
+        },
+    )
+    predicted_series = set(predictions["series"])
+    plot_series = [series for series in PRIMARY_SERIES if series in predicted_series]
+    plot_series.extend(series for series in SERIES if series in predicted_series and series not in plot_series)
+    ncols = min(3, max(1, len(plot_series)))
     nrows = int(np.ceil(len(plot_series) / ncols))
-    fig, axes = plt.subplots(nrows, ncols, figsize=(9 * ncols, 5.5 * nrows), squeeze=False)
+    fig, axes = plt.subplots(nrows, ncols, figsize=(10.8 * ncols, 18.2 * nrows), squeeze=False)
     axes = axes.ravel()
-    palette = dict(zip(sorted(predictions["model"].unique()), sns.color_palette("tab10", predictions["model"].nunique())))
+    model_order = list(model_registry(epochs=1).keys())
+    plotted_models = [model for model in model_order if model in set(predictions["model"])]
 
     for ax, series in zip(axes, plot_series):
         observed = data[["year", series]]
-        ax.plot(observed["year"], observed[series], color="black", linewidth=2.4, label="Observed")
-        ax.axvline(TEST_START, color="black", linestyle=":", linewidth=1.2, alpha=0.7)
+        ax.plot(
+            observed["year"],
+            observed[series],
+            color="#4D4D4D",
+            marker="o",
+            markersize=8.8,
+            linewidth=5.0,
+            label="Observed",
+            zorder=2,
+        )
+        ax.axvline(TEST_START, color="#111111", linestyle=":", linewidth=3.0, alpha=0.95)
 
         series_predictions = predictions[predictions["series"] == series]
-        for model_name, group in series_predictions.groupby("model"):
+        for model_name in plotted_models:
+            group = series_predictions[series_predictions["model"] == model_name]
+            if group.empty:
+                continue
             ax.plot(
                 group["year"],
                 group["predicted"],
                 marker="o",
                 linestyle="--",
-                linewidth=1.8,
-                color=palette[model_name],
+                linewidth=6.4,
+                markersize=10.6,
+                markeredgecolor="white",
+                markeredgewidth=1.3,
+                color=MODEL_COLORS[model_name],
                 label=model_name,
+                zorder=3,
             )
 
         ax.set_title(SERIES_LABELS[series])
         ax.set_xlabel("Year")
         ax.set_ylabel(series_y_label(series))
         ax.margins(x=0.02)
+        ax.grid(True, which="major", color="#8F8F8F", linewidth=1.8, alpha=0.9)
+        ax.tick_params(axis="both", width=1.8, length=8)
 
     for ax in axes[len(plot_series) :]:
         ax.axis("off")
 
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.99, 0.5), ncol=1, frameon=False)
-    fig.suptitle("Model comparison on the 2018-2023 test period", y=0.995)
-    fig.tight_layout(rect=(0, 0, 0.86, 0.95))
+    observed_handle = plt.Line2D(
+        [0],
+        [0],
+        color="#4D4D4D",
+        marker="o",
+        linewidth=5.0,
+        markersize=8.8,
+        label="Observed",
+    )
+    model_handles = [
+        plt.Line2D(
+            [0],
+            [0],
+            color=MODEL_COLORS[model_name],
+            marker="o",
+            markeredgecolor="white",
+            markeredgewidth=1.3,
+            linestyle="--",
+            linewidth=5.4,
+            markersize=10.6,
+            label=model_name,
+        )
+        for model_name in plotted_models
+    ]
+    fig.legend(
+    [observed_handle, *model_handles],
+    ["Observed", *plotted_models],
+    loc="lower center",
+    bbox_to_anchor=(0.5, 0.015),
+    ncol=5,
+    frameon=False,
+    columnspacing=1.9,
+    handlelength=3.3,
+    handletextpad=0.75,
+    prop={"weight": "bold", "size": 40},
+)
+    fig.suptitle("Model comparison on the 2018-2023 test period", fontsize=40, fontweight="bold", y=0.995)
+    fig.tight_layout(rect=(0, 0.16, 1, 0.91))
     fig.savefig(EVALUATION_FIGURE_DIR / "all_model_test_predictions_subplots.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
@@ -238,10 +316,17 @@ def main() -> None:
     for series in selected_series:
         train, test, test_years = split_train_test(data, series)
         steps = len(test)
+        arima_selected_d, arima_d_reason = model_arima.select_d(train)
         for model_name, runner in models.items():
             start = time.perf_counter()
             try:
-                result = runner(train, steps)
+                model_kwargs = {}
+                if model_name in {"ARIMA", "ARIMA_LSTM"}:
+                    model_kwargs = {
+                        "selected_d": arima_selected_d,
+                        "d_reason": f"{arima_d_reason}; source=training_period",
+                    }
+                result = runner(train, steps, **model_kwargs)
                 predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
                 status = "ok"
                 error = ""

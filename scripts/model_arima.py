@@ -84,13 +84,22 @@ def candidate_orders_for_d(d: int) -> list[tuple[int, int, int]]:
     ]
 
 
-def forecast(train: np.ndarray, steps: int) -> ForecastResult:
+def forecast(
+    train: np.ndarray,
+    steps: int,
+    selected_d: int | None = None,
+    d_reason: str | None = None,
+) -> ForecastResult:
     # Initialize model-selection trackers.
     best_aic = np.inf
     best_order = None
     best_fit = None
-    # Choose differencing order from stationarity tests on the training data.
-    selected_d, d_reason = select_d(train)
+    # Use the differencing order supplied by the orchestration script. If a
+    # caller does not supply one, select it from the available training data.
+    if selected_d is None:
+        selected_d, d_reason = select_d(train)
+    else:
+        d_reason = d_reason or "provided_by_caller"
 
     with warnings.catch_warnings():
         # Individual ARIMA candidates may not converge on small samples.

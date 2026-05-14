@@ -45,6 +45,36 @@ SERIES_LABELS = {
     "mortality_all_age_number": "Mortality all-age number",
 }
 
+MODEL_COLORS = {
+    # Okabe-Ito inspired high-contrast colors that remain distinguishable in print.
+    "Naive": "#0072B2",
+    "Drift": "#D55E00",
+    "ARIMA": "#009E73",
+    "ETS": "#CC79A7",
+    "LSTM": "#E69F00",
+    "Causal_TCN": "#56B4E9",
+    "ARIMA_LSTM": "#F0E442",
+    "Multistep_LSTM": "#000000",
+}
+
+PLOT_TITLE_SIZE = 26
+PLOT_AXIS_LABEL_SIZE = 22
+PLOT_TICK_SIZE = 18
+PLOT_LEGEND_SIZE = 20
+PLOT_LINEWIDTH = 4.6
+PLOT_MARKERSIZE = 10.5
+PLOT_MARKEREDGEWIDTH = 1.4
+PLOT_OBSERVED_COLOR = "#3F3F3F"
+PLOT_FORECAST_COLORS = {
+    "incidence_age_standardized_rate": "#0072B2",
+    "mortality_to_incidence_age_standardized_ratio": "#009E73",
+    "incidence_all_age_rate": "#56B4E9",
+    "incidence_all_age_number": "#E69F00",
+    "mortality_age_standardized_rate": "#D55E00",
+    "mortality_all_age_rate": "#CC79A7",
+    "mortality_all_age_number": "#F0E442",
+}
+
 
 def series_y_label(series: str) -> str:
     if "ratio" in series:
@@ -56,14 +86,14 @@ def series_y_label(series: str) -> str:
 
 def model_registry(epochs: int):
     return {
-        "Naive": lambda train, steps: naive_forecast(train, steps),
-        "Drift": lambda train, steps: drift_forecast(train, steps),
-        "ARIMA": lambda train, steps: model_arima.forecast(train, steps),
-        "ETS": lambda train, steps: model_ets.forecast(train, steps),
-        "LSTM": lambda train, steps: model_lstm.forecast(train, steps, epochs=epochs),
-        "Causal_TCN": lambda train, steps: model_causal_tcn.forecast(train, steps, epochs=epochs),
-        "ARIMA_LSTM": lambda train, steps: model_arima_lstm.forecast(train, steps, epochs=epochs),
-        "Multistep_LSTM": lambda train, steps: model_multistep_lstm.forecast(train, steps, epochs=epochs),
+        "Naive": lambda train, steps, **_: naive_forecast(train, steps),
+        "Drift": lambda train, steps, **_: drift_forecast(train, steps),
+        "ARIMA": lambda train, steps, **kwargs: model_arima.forecast(train, steps, **kwargs),
+        "ETS": lambda train, steps, **_: model_ets.forecast(train, steps),
+        "LSTM": lambda train, steps, **_: model_lstm.forecast(train, steps, epochs=epochs),
+        "Causal_TCN": lambda train, steps, **_: model_causal_tcn.forecast(train, steps, epochs=epochs),
+        "ARIMA_LSTM": lambda train, steps, **kwargs: model_arima_lstm.forecast(train, steps, epochs=epochs, **kwargs),
+        "Multistep_LSTM": lambda train, steps, **_: model_multistep_lstm.forecast(train, steps, epochs=epochs),
     }
 
 
@@ -73,9 +103,9 @@ def plot_forecasts(data: pd.DataFrame, forecasts: pd.DataFrame) -> None:
         old_path.unlink()
 
     plot_series = [series for series in SERIES if series in set(forecasts["series"])]
-    ncols = 2 if len(plot_series) > 1 else 1
-    nrows = int(np.ceil(len(plot_series) / ncols))
-    fig, axes = plt.subplots(nrows, ncols, figsize=(9 * ncols, 5.5 * nrows), squeeze=False)
+    ncols = min(3, max(1, len(plot_series)))
+    nrows = 1 if len(plot_series) else 1
+    fig, axes = plt.subplots(nrows, ncols, figsize=(11.5 * ncols, 7.2), squeeze=False)
     axes = axes.ravel()
     for ax, series in zip(axes, plot_series):
         fc = forecasts[forecasts["series"] == series]
@@ -84,21 +114,84 @@ def plot_forecasts(data: pd.DataFrame, forecasts: pd.DataFrame) -> None:
             continue
         model_name = fc["selected_model"].iloc[0]
 
-        ax.plot(data["year"], data[series], marker="o", linewidth=2.4, label="Observed")
-        ax.plot(fc["year"], fc["forecast"], marker="o", linestyle="--", linewidth=2.4, label=f"Forecast ({model_name})")
-        ax.axvline(2023, color="black", linewidth=1, alpha=0.5)
+        ax.plot(
+            data["year"],
+            data[series],
+            color=PLOT_OBSERVED_COLOR,
+            marker="o",
+            markersize=PLOT_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            linewidth=PLOT_LINEWIDTH,
+            label="Observed",
+        )
+        ax.plot(
+            fc["year"],
+            fc["forecast"],
+            color=PLOT_FORECAST_COLORS.get(series, "#0072B2"),
+            marker="o",
+            markersize=PLOT_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            linestyle="--",
+            linewidth=PLOT_LINEWIDTH,
+            label=f"Forecast ({model_name})",
+        )
+        ax.axvline(2023, color="black", linewidth=1.4, alpha=0.55)
         ax.set_title(SERIES_LABELS[series])
         ax.set_xlabel("Year")
         ax.set_ylabel(series_y_label(series))
+        ax.title.set_fontsize(PLOT_TITLE_SIZE)
+        ax.title.set_fontweight("bold")
+        ax.xaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+        ax.xaxis.label.set_fontweight("bold")
+        ax.yaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+        ax.yaxis.label.set_fontweight("bold")
+        ax.tick_params(axis="both", labelsize=PLOT_TICK_SIZE, width=1.4, length=6)
         ax.margins(x=0.02)
 
     for ax in axes[len(plot_series) :]:
         ax.axis("off")
 
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.99, 0.5), ncol=1, frameon=False)
-    fig.suptitle("Best-model forecasts for Ghana TB burden, 2024-2030", y=0.995)
-    fig.tight_layout(rect=(0, 0, 0.86, 0.95))
+    observed_handle = plt.Line2D(
+        [0],
+        [0],
+        color=PLOT_OBSERVED_COLOR,
+        marker="o",
+        linewidth=PLOT_LINEWIDTH,
+        markersize=PLOT_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=PLOT_MARKEREDGEWIDTH,
+        label="Observed",
+    )
+    forecast_handle = plt.Line2D(
+        [0],
+        [0],
+        color="#0072B2",
+        marker="o",
+        linewidth=PLOT_LINEWIDTH,
+        linestyle="--",
+        markersize=PLOT_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=PLOT_MARKEREDGEWIDTH,
+        label="Predicted",
+    )
+    fig.legend(
+        [observed_handle, forecast_handle],
+        ["Observed", "Predicted"],
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.02),
+        ncol=2,
+        frameon=False,
+        prop={"size": PLOT_LEGEND_SIZE, "weight": "bold"},
+    )
+    fig.suptitle(
+        "Best-model forecasts for Ghana TB burden, 2024-2030",
+        y=0.995,
+        fontsize=32,
+        fontweight="bold",
+    )
+    fig.tight_layout(rect=(0, 0.14, 1, 0.88))
     fig.savefig(FORECAST_FIGURE_DIR / "best_model_forecasts_2024_2030_subplots.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
@@ -113,8 +206,15 @@ def forecast_all_models(
     rows = []
     for series in tqdm(selected_series, desc="Forecasting all models", unit="series"):
         train = data[series].to_numpy(dtype=float)
+        arima_selected_d, arima_d_reason = model_arima.select_d(train)
         for model_name, runner in models.items():
-            result = runner(train, steps)
+            model_kwargs = {}
+            if model_name in {"ARIMA", "ARIMA_LSTM"}:
+                model_kwargs = {
+                    "selected_d": arima_selected_d,
+                    "d_reason": f"{arima_d_reason}; source=full_observed_period",
+                }
+            result = runner(train, steps, **model_kwargs)
             predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
             for year, prediction in zip(forecast_years, predictions):
                 rows.append(
@@ -134,7 +234,7 @@ def plot_all_model_forecasts(data: pd.DataFrame, all_forecasts: pd.DataFrame) ->
     model_order = list(model_registry(epochs=1).keys())
 
     for series in [series for series in SERIES if series in set(all_forecasts["series"])]:
-        fig, axes = plt.subplots(2, 4, figsize=(24, 11), squeeze=False)
+        fig, axes = plt.subplots(2, 4, figsize=(26, 12.5), squeeze=False)
         axes = axes.ravel()
         observed = data[["year", series]]
 
@@ -143,18 +243,84 @@ def plot_all_model_forecasts(data: pd.DataFrame, all_forecasts: pd.DataFrame) ->
                 (all_forecasts["series"] == series)
                 & (all_forecasts["model"] == model_name)
             ]
-            ax.plot(observed["year"], observed[series], color="black", marker="o", linewidth=2.1, label="Observed")
-            ax.plot(fc["year"], fc["forecast"], marker="o", linestyle="--", linewidth=2.1, label="Forecast")
-            ax.axvline(2023, color="black", linewidth=1, alpha=0.5)
+            forecast_color = MODEL_COLORS[model_name]
+            ax.plot(
+                observed["year"],
+                observed[series],
+                color="#555555",
+                marker="o",
+                markersize=PLOT_MARKERSIZE,
+                markeredgecolor="white",
+                markeredgewidth=PLOT_MARKEREDGEWIDTH,
+                linewidth=PLOT_LINEWIDTH,
+                label="Observed",
+                zorder=2,
+            )
+            ax.plot(
+                fc["year"],
+                fc["forecast"],
+                color=forecast_color,
+                marker="o",
+                markersize=PLOT_MARKERSIZE,
+                markeredgecolor="white",
+                markeredgewidth=PLOT_MARKEREDGEWIDTH,
+                linestyle="--",
+                linewidth=PLOT_LINEWIDTH,
+                label=model_name,
+                zorder=3,
+            )
+            ax.axvline(2023, color="#222222", linewidth=1.5, alpha=0.7)
             ax.set_title(model_name)
             ax.set_xlabel("Year")
             ax.set_ylabel(series_y_label(series))
+            ax.title.set_fontsize(PLOT_TITLE_SIZE)
+            ax.title.set_fontweight("bold")
+            ax.xaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+            ax.xaxis.label.set_fontweight("bold")
+            ax.yaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+            ax.yaxis.label.set_fontweight("bold")
+            ax.tick_params(axis="both", labelsize=PLOT_TICK_SIZE, width=1.4, length=6)
             ax.margins(x=0.02)
 
-        handles, labels = axes[0].get_legend_handles_labels()
-        fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.99, 0.5), frameon=False)
-        fig.suptitle(f"{SERIES_LABELS[series]}: model-specific forecasts, 2024-2030", y=0.995)
-        fig.tight_layout(rect=(0, 0, 0.92, 0.95))
+        observed_handle = plt.Line2D(
+            [0],
+            [0],
+            color="#555555",
+            marker="o",
+            linewidth=PLOT_LINEWIDTH,
+            markersize=PLOT_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            label="Observed",
+        )
+        forecast_handle = plt.Line2D(
+            [0],
+            [0],
+            color="#222222",
+            marker="o",
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            linestyle="--",
+            linewidth=PLOT_LINEWIDTH,
+            markersize=PLOT_MARKERSIZE,
+            label="Predicted",
+        )
+        fig.legend(
+            [observed_handle, forecast_handle],
+            ["Observed", "Predicted"],
+            loc="lower center",
+            bbox_to_anchor=(0.5, 0.01),
+            frameon=False,
+            ncol=2,
+            prop={"size": PLOT_LEGEND_SIZE, "weight": "bold"},
+        )
+        fig.suptitle(
+            f"{SERIES_LABELS[series]}: model-specific forecasts, 2024-2030",
+            y=0.995,
+            fontsize=32,
+            fontweight="bold",
+        )
+        fig.tight_layout(rect=(0, 0.10, 1, 0.93))
         fig.savefig(FORECAST_FIGURE_DIR / f"all_model_forecasts_{series}_2x4.png", dpi=300, bbox_inches="tight")
         plt.close(fig)
 
@@ -162,54 +328,97 @@ def plot_all_model_forecasts(data: pd.DataFrame, all_forecasts: pd.DataFrame) ->
 def plot_mortality_to_incidence_ratio_by_model(data: pd.DataFrame, all_forecasts: pd.DataFrame) -> None:
     sns.set_theme(style="whitegrid", context="talk")
     model_order = list(model_registry(epochs=1).keys())
-    incidence_series = "incidence_age_standardized_rate"
-    mortality_series = "mortality_age_standardized_rate"
-    required_series = {incidence_series, mortality_series}
+    ratio_series = "mortality_to_incidence_age_standardized_ratio"
 
-    if not required_series.issubset(set(all_forecasts["series"])):
+    if ratio_series not in set(all_forecasts["series"]):
         return
 
-    observed = pd.DataFrame(
-        {
-            "year": data["year"],
-            "ratio": data[mortality_series].astype(float) / data[incidence_series].astype(float),
-        }
-    )
+    observed = pd.DataFrame({"year": data["year"], "ratio": data[ratio_series].astype(float)})
+    forecast_wide = all_forecasts[all_forecasts["series"] == ratio_series].copy()
+    forecast_wide["ratio"] = forecast_wide["forecast"].astype(float)
 
-    forecast_wide = (
-        all_forecasts[all_forecasts["series"].isin(required_series)]
-        .pivot_table(index=["model", "year"], columns="series", values="forecast", aggfunc="first")
-        .reset_index()
-    )
-    forecast_wide["ratio"] = (
-        forecast_wide[mortality_series].astype(float)
-        / forecast_wide[incidence_series].astype(float).replace(0, np.nan)
-    )
-
-    fig, axes = plt.subplots(2, 4, figsize=(24, 11), squeeze=False)
+    fig, axes = plt.subplots(2, 4, figsize=(26, 12.5), squeeze=False)
     axes = axes.ravel()
 
     for ax, model_name in zip(axes, model_order):
         model_ratio = forecast_wide[forecast_wide["model"] == model_name]
-        ax.plot(observed["year"], observed["ratio"], color="black", marker="o", linewidth=2.1, label="Observed")
+        ax.plot(
+            observed["year"],
+            observed["ratio"],
+            color="black",
+            marker="o",
+            markersize=PLOT_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            linewidth=PLOT_LINEWIDTH,
+            label="Observed",
+            zorder=2,
+        )
         ax.plot(
             model_ratio["year"],
             model_ratio["ratio"],
+            color=MODEL_COLORS.get(model_name, "#222222"),
             marker="o",
             linestyle="--",
-            linewidth=2.1,
-            label="Forecast ratio",
+            markersize=PLOT_MARKERSIZE,
+            markeredgecolor="white",
+            markeredgewidth=PLOT_MARKEREDGEWIDTH,
+            linewidth=PLOT_LINEWIDTH,
+            label="Predicted",
+            zorder=3,
         )
-        ax.axvline(2023, color="black", linewidth=1, alpha=0.5)
+        ax.axvline(2023, color="black", linewidth=1.6, alpha=0.65)
         ax.set_title(model_name)
         ax.set_xlabel("Year")
         ax.set_ylabel("Mortality / incidence")
+        ax.title.set_fontsize(PLOT_TITLE_SIZE)
+        ax.title.set_fontweight("bold")
+        ax.xaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+        ax.xaxis.label.set_fontweight("bold")
+        ax.yaxis.label.set_fontsize(PLOT_AXIS_LABEL_SIZE)
+        ax.yaxis.label.set_fontweight("bold")
+        ax.tick_params(axis="both", labelsize=PLOT_TICK_SIZE, width=1.4, length=6)
         ax.margins(x=0.02)
 
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(0.99, 0.5), frameon=False)
-    fig.suptitle("Mortality-to-incidence ratio implied by model forecasts, 2024-2030", y=0.995)
-    fig.tight_layout(rect=(0, 0, 0.92, 0.95))
+    observed_handle = plt.Line2D(
+        [0],
+        [0],
+        color="black",
+        marker="o",
+        linewidth=PLOT_LINEWIDTH,
+        markersize=PLOT_MARKERSIZE,
+        markeredgecolor="white",
+        markeredgewidth=PLOT_MARKEREDGEWIDTH,
+        label="Observed",
+    )
+    predicted_handle = plt.Line2D(
+        [0],
+        [0],
+        color="#222222",
+        marker="o",
+        markeredgecolor="white",
+        markeredgewidth=PLOT_MARKEREDGEWIDTH,
+        linestyle="--",
+        linewidth=PLOT_LINEWIDTH,
+        markersize=PLOT_MARKERSIZE,
+        label="Predicted",
+    )
+    fig.legend(
+        [observed_handle, predicted_handle],
+        ["Observed", "Predicted"],
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.01),
+        ncol=2,
+        frameon=False,
+        prop={"size": PLOT_LEGEND_SIZE, "weight": "bold"},
+    )
+    fig.suptitle(
+        "Mortality-to-incidence ratio implied by model forecasts, 2024-2030",
+        y=0.995,
+        fontsize=32,
+        fontweight="bold",
+    )
+    fig.tight_layout(rect=(0, 0.10, 1, 0.93))
     fig.savefig(FORECAST_FIGURE_DIR / "mortality_to_incidence_ratio_forecasts_by_model_2x4.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
@@ -249,7 +458,14 @@ def main() -> None:
             raise ValueError(f"Unknown selected model '{model_name}' for series '{series}'")
 
         train = data[series].to_numpy(dtype=float)
-        result = models[model_name](train, steps)
+        model_kwargs = {}
+        if model_name in {"ARIMA", "ARIMA_LSTM"}:
+            arima_selected_d, arima_d_reason = model_arima.select_d(train)
+            model_kwargs = {
+                "selected_d": arima_selected_d,
+                "d_reason": f"{arima_d_reason}; source=full_observed_period",
+            }
+        result = models[model_name](train, steps, **model_kwargs)
         predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
 
         for year, prediction in zip(forecast_years, predictions):

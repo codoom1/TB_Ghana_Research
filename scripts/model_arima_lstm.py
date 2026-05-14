@@ -39,14 +39,18 @@ def _device() -> torch.device:
     return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 
-def _best_arima(train: np.ndarray):
+def _best_arima(train: np.ndarray, selected_d: int | None = None, d_reason: str | None = None):
     # This helper repeats the ARIMA selection logic so the hybrid model can use
     # the same data-driven differencing and AIC model choice.
     best_aic = np.inf
     best_order = None
     best_fit = None
-    # Choose differencing order from stationarity tests.
-    selected_d, d_reason = select_d(train)
+    # Use the differencing order supplied by the orchestration script. If a
+    # caller does not supply one, select it from the available training data.
+    if selected_d is None:
+        selected_d, d_reason = select_d(train)
+    else:
+        d_reason = d_reason or "provided_by_caller"
     with warnings.catch_warnings():
         # Failed or nonconverged ARIMA candidates are skipped.
         warnings.simplefilter("ignore", ConvergenceWarning)
@@ -74,6 +78,8 @@ def _best_arima(train: np.ndarray):
 def forecast(
     train: np.ndarray,
     steps: int,
+    selected_d: int | None = None,
+    d_reason: str | None = None,
     seq_len: int = 5,
     epochs: int = 250,
     lr: float = 0.01,
@@ -84,7 +90,7 @@ def forecast(
     set_global_seed(seed)
     train = np.asarray(train, dtype=float)
     # Step 1: fit the best ARIMA model to capture linear trend/autocorrelation.
-    arima_fit, order, aic, selected_d, d_reason = _best_arima(train)
+    arima_fit, order, aic, selected_d, d_reason = _best_arima(train, selected_d=selected_d, d_reason=d_reason)
     if arima_fit is None or order is None:
         # If ARIMA cannot be fit, the hybrid has no baseline component.
         prediction = np.repeat(train[-1], steps)
