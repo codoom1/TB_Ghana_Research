@@ -8,6 +8,7 @@ Run after `03_train_evaluate_all_models.py`:
 from __future__ import annotations
 
 import argparse
+import re
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -95,6 +96,25 @@ def model_registry(epochs: int):
         "ARIMA_LSTM": lambda train, steps, **kwargs: model_arima_lstm.forecast(train, steps, epochs=epochs, **kwargs),
         "Multistep_LSTM": lambda train, steps, **_: model_multistep_lstm.forecast(train, steps, epochs=epochs),
     }
+
+
+def parse_selected_d(params: str | None) -> tuple[int | None, str | None]:
+    if not params:
+        return None, None
+    match = re.match(r"selected_d=(\d+);\s*(.*)", str(params))
+    if not match:
+        return None, None
+    return int(match.group(1)), match.group(2)
+
+
+def build_arima_selection_lookup(evaluation: pd.DataFrame) -> dict[tuple[str, str], tuple[int | None, str | None]]:
+    lookup: dict[tuple[str, str], tuple[int | None, str | None]] = {}
+    for _, row in evaluation.iterrows():
+        series = str(row["series"])
+        model_name = str(row["model"])
+        if model_name in {"ARIMA", "ARIMA_LSTM"}:
+            lookup[(series, model_name)] = parse_selected_d(row.get("params"))
+    return lookup
 
 
 def plot_forecasts(data: pd.DataFrame, forecasts: pd.DataFrame) -> None:
@@ -202,17 +222,23 @@ def forecast_all_models(
     selected_series: list[str],
     steps: int,
     forecast_years: list[int],
+    arima_selection_lookup: dict[tuple[str, str], tuple[int | None, str | None]],
 ) -> pd.DataFrame:
     rows = []
     for series in tqdm(selected_series, desc="Forecasting all models", unit="series"):
         train = data[series].to_numpy(dtype=float)
-        arima_selected_d, arima_d_reason = model_arima.select_d(train)
         for model_name, runner in models.items():
             model_kwargs = {}
             if model_name in {"ARIMA", "ARIMA_LSTM"}:
+                arima_selected_d, arima_d_reason = arima_selection_lookup.get((series, model_name), (None, None))
+                if arima_selected_d is None:
+                    raise ValueError(
+                        f"Missing holdout-selected d for series '{series}' and model '{model_name}'. "
+                        "Re-run the evaluation script so the selection table is available."
+                    )
                 model_kwargs = {
                     "selected_d": arima_selected_d,
-                    "d_reason": f"{arima_d_reason}; source=full_observed_period",
+                    "d_reason": arima_d_reason,
                 }
             result = runner(train, steps, **model_kwargs)
             predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
@@ -436,11 +462,18 @@ def main() -> None:
         action="store_true",
         help="Forecast all series present in the best-model table. By default, forecasts primary age-standardized endpoints.",
     )
+    parser.add_argument(
+        "--evaluation-path",
+        default=str(TABLE_DIR / "all_model_evaluation_2018_2023.csv"),
+        help="CSV produced by the evaluation script; used to reuse the holdout-selected ARIMA d.",
+    )
     args = parser.parse_args()
 
     ensure_output_dirs()
     data = load_modeling_data()
     best = pd.read_csv(args.best_model_path)
+    evaluation = pd.read_csv(args.evaluation_path)
+    arima_selection_lookup = build_arima_selection_lookup(evaluation)
     if not args.all_series:
         best = best[best["series"].isin(PRIMARY_SERIES)].copy()
     models = model_registry(args.epochs)
@@ -460,10 +493,14 @@ def main() -> None:
         train = data[series].to_numpy(dtype=float)
         model_kwargs = {}
         if model_name in {"ARIMA", "ARIMA_LSTM"}:
-            arima_selected_d, arima_d_reason = model_arima.select_d(train)
+            arima_selected_d, arima_d_reason = parse_selected_d(selected.get("params"))
+            if arima_selected_d is None:
+                raise ValueError(
+                    f"Missing holdout-selected d in best-model row for series '{series}' and model '{model_name}'."
+                )
             model_kwargs = {
                 "selected_d": arima_selected_d,
-                "d_reason": f"{arima_d_reason}; source=full_observed_period",
+                "d_reason": arima_d_reason,
             }
         result = models[model_name](train, steps, **model_kwargs)
         predictions = np.maximum(np.asarray(result.predictions, dtype=float), 0)
@@ -486,7 +523,7 @@ def main() -> None:
     forecasts.to_csv(TABLE_DIR / "best_model_forecasts_2024_2030.csv", index=False)
     plot_forecasts(data, forecasts)
 
-    all_model_forecasts = forecast_all_models(data, models, selected_series, steps, forecast_years)
+    all_model_forecasts = forecast_all_models(data, models, selected_series, steps, forecast_years, arima_selection_lookup)
     all_model_forecasts.to_csv(FORECAST_DIR / "all_model_forecasts_2024_2030.csv", index=False)
     all_model_forecasts.to_csv(TABLE_DIR / "all_model_forecasts_2024_2030.csv", index=False)
     plot_all_model_forecasts(data, all_model_forecasts)
